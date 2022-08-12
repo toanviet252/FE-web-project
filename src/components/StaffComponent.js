@@ -75,15 +75,20 @@ class Staffs extends Component {
       isModalOpen: false,
     };
     // gọi hàm để nhận event
-    this.findStaff = this.findStaff.bind(this);
+    // this.findStaff = this.findStaff.bind(this);
+    this.onChangeFindStaff = this.onChangeFindStaff.bind(this);
     this.toggleModal = this.toggleModal.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
   }
   // Hàm tìm kiếm nhân viên
-  findStaff(event) {
-    const nameS = event.target.nameS.value;
-    this.setState({ nameF: nameS });
-    event.preventDefault();
+  // findStaff(event) {
+  //   console.log(event.target.nameS);
+  //   const nameS = event.target.nameS;
+  //   this.setState({ nameF: nameS });
+  //   event.preventDefault();
+  // }
+  onChangeFindStaff(e) {
+    this.setState({ nameF: e.target.value });
   }
   // Modal open function
   toggleModal() {
@@ -162,20 +167,21 @@ class Staffs extends Component {
                 </Button>
               </div>
               <div className="col-10 mt-1 ">
-                <Form onSubmit={this.findStaff} className="form-group row">
-                  <div className="col-8 ">
+                <Form className="form-group row">
+                  <div className="col-10">
                     <Input
                       type="text"
-                      id="nameS"
-                      name="nameS"
+                      // id="nameS"
+                      // name="nameS"
                       placeholder="Tìm kiến tên nhân viên"
+                      onChange={this.onChangeFindStaff}
                     />
                   </div>
-                  <div className="col-4 ">
+                  {/* <div className="col-4 ">
                     <Button color="primary" type="submit" className="search">
                       Tìm kiếm
                     </Button>
-                  </div>
+                  </div> */}
                 </Form>
               </div>
             </div>

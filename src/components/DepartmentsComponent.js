@@ -21,7 +21,7 @@ const Department = function (props) {
   console.log(result);
   const department = props.departments.map((department) => {
     return (
-      <div className="col-12 col-md-5 col-lg-3 m-1">
+      <div key={department.id} className="col-12 col-md-5 col-lg-3 m-1">
         <RenderDepartment departments={department} />
       </div>
     );

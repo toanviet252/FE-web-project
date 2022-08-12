@@ -5,7 +5,7 @@ import Footer from "./FooterComponent";
 import StaffDetail from "./StaffDetail";
 import Department from "./DepartmentsComponent";
 import DepartDetail from "./DepartDetail";
-import { Switch, Route, withRouter } from "react-router-dom";
+import { Switch, Route, withRouter, Redirect } from "react-router-dom";
 import SalaryTable from "./SalaryComponent";
 import { connect } from "react-redux";
 import { TransitionGroup, CSSTransition } from "react-transition-group";
@@ -172,6 +172,7 @@ class Main extends Component {
                   />
                 )}
               />
+              <Redirect to="/nhanvien" />
             </Switch>
           </CSSTransition>
         </TransitionGroup>
