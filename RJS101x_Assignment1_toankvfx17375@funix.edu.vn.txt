@@ -1,5 +1,0 @@
-Link github
-
-https://github.com/toanviet252/lab/tree/assignment1
-
-Tên branch: assignment1
