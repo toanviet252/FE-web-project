@@ -1,0 +1,7 @@
+@media only screen and (min-width: 768px) and (max-width:992px) {
+.menu {background-color: darkgray;}
+.menuleft {padding-left: 15px;}
+.menuright {padding-right: 15px;}
+.card,.card-2,.card-3, .list-content {
+    flex: 50%;}
+}

@@ -1,0 +1,329 @@
+* {
+  box-sizing: border-box;
+}
+/* menu css*/
+header {
+  width: 95%;
+}
+#menu {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin: 0px auto;
+  padding-left: 15px;
+  background-color: rgb(251 251 251);
+  border-bottom: 1px solid #442006;
+  font-weight: bold;
+}
+.row-1 {
+  padding-left: 20px;
+}
+.menuleft ul li {
+  display: inline-block;
+  padding: 0px 20px;
+}
+
+.menuright ul li {
+  display: inline-block;
+  padding: 0px 20px;
+}
+
+.menuleft ul li,
+.menuright ul li {
+  font-family: "Oswald", sans-serif;
+  font-size: 15px;
+  text-transform: uppercase;
+}
+#nav-color {
+  color: #5d817f;
+}
+a {
+  text-decoration: none;
+}
+.row-1 li a:hover,
+.row-2 li a:hover,
+.box-1 li a:hover,
+.box-2 li a:hover {
+  background-color: rgb(225, 238, 234);
+  font-size: 120%;
+}
+
+.search-input {
+  border-radius: 10px;
+  border-color: aqua;
+}
+
+.head-content {
+  font-family: "Alegreya", serif;
+  color: #343942;
+}
+.button {
+  border-radius: 15px;
+  cursor: pointer;
+  border: 3px solid rgb(159, 227, 230);
+}
+section {
+  margin: 0px auto;
+  padding-left: 30px;
+  padding-right: 30px;
+}
+
+/* slideshow*/
+.slide-fade {
+  display: none;
+}
+img {
+  vertical-align: middle;
+}
+#pic {
+  width: 100%;
+}
+
+/* Slideshow container */
+.slideshow-container {
+  max-width: 100%;
+  position: relative;
+  margin: auto;
+}
+
+/* Caption text */
+.text-content {
+  color: #f2f2f2;
+  font-size: 30px;
+  padding: 8px 12px;
+  position: absolute;
+  bottom: 15px;
+  width: 30%;
+  text-align: left;
+}
+
+/* The dots/bullets/indicators */
+.dot {
+  height: 10px;
+  width: 10px;
+  margin: 0 2px;
+  background-color: #bbb;
+  border-radius: 50%;
+  display: inline-block;
+  transition: background-color 0.6s ease;
+}
+
+.active {
+  background-color: #717171;
+}
+
+/* Fading animation */
+.fade {
+  animation-name: fade;
+  animation-duration: 3s;
+}
+
+@keyframes fade {
+  from {
+    opacity: 0.4;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+/* Phần giới thiệu*/
+.introduce {
+  clear: both;
+  padding: 20px 0px;
+  font-family: "Alegreya", serif;
+}
+.introduce .intro1 q {
+  font-size: 25px;
+}
+h3 {
+  font-size: 20px;
+}
+
+/*Pic-list*/
+.cards {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: stretch;
+  justify-content: center;
+  width: 100%;
+}
+.card {
+  width: 25%;
+  margin-right: 30px;
+}
+.card-image {
+  border-radius: 15px;
+  background-color: white;
+  box-shadow: #717171;
+  width: 100%;
+}
+.card-title {
+  text-align: center;
+  font-family: "Alegreya", serif;
+}
+.cards a:hover {
+  opacity: 0.7;
+}
+/*Flex reponsive*/
+@media only screen and (max-width: 768px) {
+  .card,
+  .card-2,
+  .card-3,
+  .list-content {
+    flex: 100%;
+  }
+}
+@media only screen and (min-width: 768px) and (max-width: 992px) {
+  .card,
+  .card-2,
+  .card-3,
+  .list-content {
+    flex: 50%;
+  }
+}
+
+/*footer css*/
+footer {
+  background-color: #c9c6c6;
+  width: 95%;
+  margin: 0px auto;
+  border-top: 1px solid rgb(8, 8, 8);
+}
+
+footer .footer-content .box-1 h3,
+footer .footer-content .box-2 h3 {
+  font-size: 25px;
+  font-family: "Source Serif 4", serif;
+  color: #321844;
+  padding-left: 30px;
+  text-align: center;
+}
+footer .footer-content .box-2 h3 {
+  margin-bottom: 0px;
+}
+.box-1 ul,
+.box-2 ul {
+  text-align: center;
+  margin: 0 30px;
+  padding: 0 40px;
+}
+
+.box-1 li,
+.box-2 li {
+  display: inline-block;
+  padding-left: 0px 40px;
+  margin: 10px;
+  font-size: 20px;
+  text-align: center;
+  font-weight: bold;
+}
+#ft-cl {
+  color: #321844;
+}
+.fa {
+  padding: 20px;
+  font-size: 40px;
+  width: 50px;
+  height: 50px;
+  text-align: center;
+  text-decoration: none;
+  margin: 5px 5px;
+  border-radius: 50px;
+}
+
+/*CSS Location*/
+.intro h2 {
+  font-family: "Oswald", sans-serif;
+  font-weight: lighter;
+  padding-left: 50px;
+}
+.list-content {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: stretch;
+  justify-content: center;
+  width: 100%;
+}
+.content {
+  position: relative;
+  width: 25%;
+  padding: 0 30px 30px 30px;
+  text-align: center;
+}
+.content img {
+  width: 80%;
+}
+.text-pic {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  color: white;
+}
+.text-pic a {
+  font-size: 25px;
+  color: white;
+}
+.text-pic a:hover {
+  font-size: 30px;
+}
+.card-2 {
+  width: 50%;
+  padding-right: 30px;
+  padding-left: 10px;
+}
+.card-3 {
+  width: 25%;
+  padding-right: 30px;
+  padding-left: 10px;
+}
+
+.card-title-2 {
+  text-align: Left;
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 25px;
+  margin-bottom: 0px;
+  margin-top: 5px;
+}
+.card-footer {
+  font-style: italic;
+}
+.bottom {
+  margin-bottom: 25px;
+}
+i {
+  color: yellow;
+}
+.submit a {
+  text-transform: uppercase;
+  font-weight: 900;
+}
+.flight h2 {
+  font-family: "Oswald", sans-serif;
+  text-align: center;
+  font-weight: lighter;
+}
+.you-known li {
+  list-style-type: none;
+  font-family: "Oswald", sans-serif;
+  font-weight: lighter;
+}
+.you-known li i {
+  color: rgb(35, 42, 42);
+}
+.you-known a {
+  color: black;
+}
+
+iframe {
+  width: 100%;
+  height: 1000px;
+}
+
+.author {
+  text-align: center;
+  color: rgb(16, 15, 15);
+  padding-bottom: 20px;
+  font-family: Arial, Helvetica, sans-serif;
+}
