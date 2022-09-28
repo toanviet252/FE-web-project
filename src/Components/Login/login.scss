@@ -1,0 +1,17 @@
+#btn:hover {
+  background-color: rgb(15, 177, 209);
+  color: azure;
+}
+
+.google-login-btn {
+  background-color: rgb(42, 147, 10);
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  padding: 5px;
+}
+.google-login-btn:hover {
+  background: linear-gradient(to right, red, blue);
+  // background-color: rgb(15, 177, 209);
+}

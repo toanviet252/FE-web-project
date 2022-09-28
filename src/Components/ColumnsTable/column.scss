@@ -1,0 +1,22 @@
+.btn-table-action {
+  button {
+    border: none;
+    cursor: pointer;
+    padding: 0.3rem;
+    border-radius: 0.3rem;
+    color: white;
+  }
+  .update-btn {
+    background-color: green;
+    margin-right: 5px;
+  }
+  .update-btn:hover {
+    opacity: 0.8;
+  }
+  .delete-btn {
+    background-color: red;
+  }
+  .delete-btn:hover {
+    opacity: 0.8;
+  }
+}
