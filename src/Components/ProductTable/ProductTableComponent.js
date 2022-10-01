@@ -29,6 +29,14 @@ const ProductTable = () => {
     setOpenEdit(false);
     message.success("Cập nhật thành công.");
   };
+  const onChangeData = useCallback((key, value) => {
+    setdataRecord((pre) => {
+      const tmp = { ...pre };
+      tmp[key] = value?.target?.value ?? value;
+      return tmp;
+    });
+  }, []);
+
   //Xóa cột
   const onDeleteProduct = useCallback((id) => {
     Modal.confirm({
@@ -187,12 +195,7 @@ const ProductTable = () => {
             <Input
               value={dataRecord?.name}
               onChange={(e) => {
-                setdataRecord((pre) => {
-                  return {
-                    ...pre,
-                    name: e.target.value,
-                  };
-                });
+                onChangeData("name", e);
               }}
             />
           </Form.Item>
@@ -201,12 +204,7 @@ const ProductTable = () => {
               type="number"
               value={dataRecord?.cost}
               onChange={(e) => {
-                setdataRecord((pre) => {
-                  return {
-                    ...pre,
-                    cost: e.target.value,
-                  };
-                });
+                onChangeData("cost", e);
               }}
             />
           </Form.Item>
@@ -215,12 +213,7 @@ const ProductTable = () => {
               type="number"
               value={dataRecord?.remainProduct}
               onChange={(e) => {
-                setdataRecord((pre) => {
-                  return {
-                    ...pre,
-                    remainProduct: e.target.value,
-                  };
-                });
+                onChangeData("remainProduct", e);
               }}
             />
           </Form.Item>
@@ -229,24 +222,29 @@ const ProductTable = () => {
               value={dataRecord?.tag}
               mode="tag"
               onChange={(e) => {
-                setdataRecord((pre) => {
-                  return {
-                    ...pre,
-                    tag: e.target.value,
-                  };
-                });
+                onChangeData("tag", e);
               }}
             ></Input>
           </Form.Item>
           <Form.Item label="Đối tượng sử dụng" required>
-            <Select defaultValue={dataRecord?.user}>
+            <Select
+              value={dataRecord?.user}
+              onChange={(e) => {
+                onChangeData("user", e);
+              }}
+            >
               <Select.Option value="Chó">Chó</Select.Option>
               <Select.Option value="Mèo">Mèo</Select.Option>
               <Select.Option value="Chuột">Chuột</Select.Option>
             </Select>
           </Form.Item>
           <Form.Item label="Trạng thái ">
-            <Select>
+            <Select
+              value={dataRecord?.status}
+              onChange={(e) => {
+                onChangeData("status", e);
+              }}
+            >
               <Select.Option value="Còn">Còn</Select.Option>
               <Select.Option value="Đã hết">Đã hết</Select.Option>
             </Select>
@@ -260,7 +258,7 @@ const ProductTable = () => {
         size="medium"
         columns={customColums}
         dataSource={dataTable}
-        key={customColums.key}
+        rowKey={"id"}
         scroll={{
           x: 1500,
         }}

@@ -1,7 +1,96 @@
+$base-color: #ee4d2d;
+
 .card-container {
   margin: 2rem 0;
+  .card-container-items {
+    transform: translateZ(0);
+  }
+  .card-container-items:hover {
+    transform: scale(1.05);
+    transition: 0.25s ease-out;
+  }
+}
+.main-content {
   display: flex;
-  flex-wrap: wrap;
-  gap: 1rem;
-  justify-content: center;
+  justify-content: space-between;
+}
+.field-search {
+  margin-top: 2vh;
+  display: flex;
+  justify-content: flex-end;
+}
+
+.body-field-wrapper {
+  height: 2000px;
+  margin: 1rem;
+}
+.ant-card-body {
+  padding: 0 !important;
+}
+.card-product-subtitle {
+  display: flex;
+  flex-direction: column;
+  margin-top: 0.5rem;
+  padding: 0.5rem;
+  p {
+    margin: 0;
+  }
+  .card-product-title {
+    margin-bottom: 15px;
+  }
+  .cost-product {
+    color: orange;
+  }
+}
+
+.filter-body {
+  margin-top: 2rem;
+  padding: 0 1rem;
+  background-color: $base-color;
+  height: 500px;
+  overflow: auto;
+  .cost-range {
+    margin-top: 15px;
+    .input-cost {
+      display: flex;
+      justify-content: space-between;
+      input {
+        width: 100%;
+      }
+    }
+  }
+  label {
+    margin-left: 0 !important;
+    padding: 5px;
+  }
+  .btn-cost-container {
+    display: flex;
+    justify-content: center;
+    margin-top: 1vh;
+    .filter-btn-cost {
+      cursor: pointer;
+      display: flex;
+      background-color: green;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      padding: 0.5rem 1rem;
+    }
+  }
+}
+.user-checkbox {
+  border-bottom: 1px solid white;
+}
+.checkbox-container {
+  display: flex;
+  flex-direction: column;
+  .checkbox-input {
+    display: flex;
+    p {
+      width: 30%;
+    }
+    input {
+      cursor: pointer;
+    }
+  }
 }

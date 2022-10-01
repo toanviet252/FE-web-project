@@ -1,5 +1,5 @@
 import React from "react";
-import { Menu, Input, Col, Row, Space } from "antd";
+import { Menu, Col, Row, Space } from "antd";
 import "./Header.component.scss";
 import LoginForm from "../Login/Logincomponent";
 import SignUp from "../SignUp/SignUpComponent";
@@ -16,7 +16,7 @@ const HeaderComponent = () => {
       key: "buyer",
     },
     {
-      label: <NavLink to="/f">Thông báo </NavLink>,
+      label: <NavLink to="/test">Thông báo </NavLink>,
       key: "notification",
     },
     {
@@ -43,9 +43,6 @@ const HeaderComponent = () => {
       <Row className="nav-menu">
         <Col xs={24} sm={24} lg={15}>
           <Menu mode="horizontal" items={items} className="nav-items" />
-        </Col>
-        <Col xs={10} sm={12} lg={5}>
-          <Input.Search placeholder="Tìm kiếm" />
         </Col>
         <Col xs={24} sm={12} lg={4} id="form-btn">
           <Space>

@@ -8,9 +8,6 @@ export const ProductData = [
     tag: ["mèo", "cat", "sand"],
     user: "Mèo",
     status: "Còn",
-    // status: {ProductData.map((e) => {
-    //   e.remainProduct > 0 ? "Còn" : "Đã hết";
-    // })},
     date: "2022-02-25",
   },
   {

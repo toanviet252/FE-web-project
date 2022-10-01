@@ -1,10 +1,12 @@
 @import url("https://fonts.googleapis.com/css2?family=Bigelow+Rules&family=Oswald:wght@500&family=Roboto+Condensed:ital@0;1&family=Roboto:ital,wght@0,100;0,400;0,500;1,100&display=swap");
 
+$base-color: #ee4d2d;
+
 .nav-menu {
   justify-content: space-between;
   padding: 0.2rem 1rem;
   align-items: center;
-  background-color: rgb(24, 42, 42);
+  background-color: $base-color;
   @media screen and (max-width: 800px) {
     .nav-items {
       padding-bottom: 0.5rem;
@@ -14,7 +16,7 @@
     }
   }
   ul {
-    background-color: rgb(24, 42, 42);
+    background-color: $base-color;
     border-bottom: none;
     li a {
       font-family: "Roboto Condensed", sans-serif;
