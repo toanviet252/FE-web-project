@@ -23,6 +23,7 @@ $base-color: #ee4d2d;
 .body-field-wrapper {
   height: 2000px;
   margin: 1rem;
+  position: relative;
 }
 .ant-card-body {
   padding: 0 !important;
@@ -92,5 +93,20 @@ $base-color: #ee4d2d;
     input {
       cursor: pointer;
     }
+  }
+}
+
+.btn_add_product {
+  border: none;
+  background-color: green;
+  border-radius: 5px;
+  padding: 0.5rem;
+  cursor: pointer;
+  color: white;
+  opacity: 0;
+}
+.card-container-items:hover {
+  .btn_add_product {
+    opacity: 1;
   }
 }

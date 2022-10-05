@@ -1,12 +1,11 @@
 import React, { useCallback, useState } from "react";
 import { Modal, Table, Form, Input, Select, message } from "antd";
 import "./table.scss";
-import { ProductData } from "../../shared/dataTable";
 import { useSearch } from "../../hooks/useSearch";
 import { Option } from "antd/lib/mentions";
 import dateFormat from "dateformat";
 
-const ProductTable = () => {
+const ProductTable = (props) => {
   // Các hàm và hook update sản phẩm:
   const [openEdit, setOpenEdit] = useState(false);
   const [dataRecord, setdataRecord] = useState(null);
@@ -52,7 +51,7 @@ const ProductTable = () => {
   }, []);
   const customColums = useSearch({ onDeleteProduct, onEditProduct }); //truyền hàm delete và update xuống
 
-  const [dataTable, setDataTable] = useState(ProductData);
+  const [dataTable, setDataTable] = useState(props.dataProduct);
 
   // Thêm sản phẩm
   const [form] = Form.useForm();

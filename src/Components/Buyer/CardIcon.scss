@@ -1,0 +1,20 @@
+.card-product-container {
+  cursor: pointer;
+  .card-btn {
+    padding: 10px 15px;
+    cursor: pointer;
+    border: none;
+    background-color: rgb(189, 209, 209);
+  }
+  .card-btn i {
+    font-size: 2rem;
+  }
+}
+
+.field-search {
+  display: flex;
+  align-items: center;
+  .input-field {
+    margin-right: 2rem;
+  }
+}

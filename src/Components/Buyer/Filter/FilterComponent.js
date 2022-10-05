@@ -1,15 +1,15 @@
 import React from "react";
-// import { Input, Form, Button } from "antd";
+import "./Filter.scss";
 
 const FilterBody = (props) => {
-  // const [form] = Form.useForm();
-  // const onFinish = (value) => {
-  //   console.log(value);
-  //   form.resetFields();
-  // };
   return (
     <>
-      <h1>Bộ lọc tìm kiếm</h1>
+      <div className="box-filter">
+        <h2>
+          <i className="fa fa-filter" aria-hidden="true"></i> Bộ lọc tìm kiếm
+        </h2>
+      </div>
+
       <div className="user-checkbox">
         <h3>Đối tượng sử dụng:</h3>
         <div className="checkbox-container">
@@ -50,30 +50,43 @@ const FilterBody = (props) => {
       <div className="cost-range">
         <h3>Theo khoảng giá:</h3>
         <div className="range-filter">
-          {/* <Form form={form} name="input-range-cost" onFinish={onFinish}>
-            <Form.Item name="min-value" label="Từ">
-              <Input type="number" placeholder="Giá nhỏ nhất" />
-            </Form.Item>
-            <Form.Item name="max-value" label="Đến">
-              <Input type="number" placeholder="Giá lớn nhất" />
-            </Form.Item>
-            <div className="btn-cost-container">
-              <Button type="primary" htmlType="submit">
-                Lọc
-              </Button>
-            </div>
-          </Form> */}
           <div className="input-range">
-            <input
-              type="range"
-              onInput={props.onhandleInput}
-              min="0"
-              max="300000"
-            />
+            <form
+              onSubmit={props.handleSubmitFindProduct}
+              className="form-group"
+            >
+              <div className="input-group">
+                <input
+                  className="input-min"
+                  type="number"
+                  id="input_minValue"
+                  name="input_minValue"
+                  /* cách 1: tìm trực tiếp khi input thay đổi
+                value={props.price.priceMin}
+                onChange={props.onhandleInputMin}
+                */
+                  placeholder="Giá nhỏ nhất (VNĐ)"
+                />
+                <input
+                  className="input-max"
+                  type="number"
+                  id="input_maxValue"
+                  name="input_maxValue"
+                  // value={props.price.priceMax}
+                  // onChange={props.onhandleInputMax}
+                  placeholder="Giá lớn nhất (VNĐ)"
+                />
+              </div>
+              <div className="btn-range-container">
+                <button type="submit" className="btn-filter-range">
+                  Lọc
+                </button>
+              </div>
+            </form>
           </div>
-          <div className="price-value">
-            <h3>Giá {props.price.toLocaleString()} VNĐ</h3>
-          </div>
+          {/* <div className="price-value">
+            <h3>Giá {props.price.priceMin} VNĐ</h3>
+          </div> */}
         </div>
       </div>
     </>

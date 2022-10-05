@@ -6,12 +6,15 @@ import reportWebVitals from "./reportWebVitals";
 import "antd/dist/antd.min.css";
 import "font-awesome/css/font-awesome.css";
 import { BrowserRouter } from "react-router-dom";
+import { CardContextProvider } from "./contexts/CartContext/CartContext";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
   <React.StrictMode>
     <BrowserRouter>
-      <App />
+      <CardContextProvider>
+        <App />
+      </CardContextProvider>
     </BrowserRouter>
   </React.StrictMode>
 );

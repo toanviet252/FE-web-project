@@ -16,8 +16,8 @@ const HeaderComponent = () => {
       key: "buyer",
     },
     {
-      label: <NavLink to="/test">Thông báo </NavLink>,
-      key: "notification",
+      label: <NavLink to="/buyer/cart">Giỏ hàng </NavLink>,
+      key: "cart",
     },
     {
       label: <NavLink to="/g">Hỗ trợ</NavLink>,

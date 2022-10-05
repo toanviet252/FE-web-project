@@ -4,7 +4,10 @@ import Footer from "./Components/Footer/FooterComponent";
 import HeaderComponent from "./Components/Header/HeaderComponent";
 import ProductTable from "./Components/ProductTable/ProductTableComponent";
 import { Routes, Route } from "react-router-dom";
-import BuyerPage from "./Components/Buyer/BuyerComponent";
+import BuyerPage from "./Components/Buyer/ProductList/BuyerComponent";
+import { ProductData } from "./shared/dataTable";
+import ProductDetail from "./Components/Buyer/ProductDetail/ProductDetailComponent";
+import CartDetail from "./Components/Buyer/CartDetail/CartDetailComponent";
 
 function App() {
   return (
@@ -14,8 +17,21 @@ function App() {
         <div className="main-body">
           <Routes>
             <Route path="/" element={<HomePage />}></Route>
-            <Route index path="seller" element={<ProductTable />} />
-            <Route path="buyer" element={<BuyerPage />} />
+            <Route
+              index
+              path="seller"
+              element={<ProductTable dataProduct={ProductData} />}
+            />
+            <Route
+              path="buyer"
+              element={<BuyerPage dataProduct={ProductData} />}
+            />
+
+            <Route
+              path="/buyer/:productId"
+              element={<ProductDetail products={ProductData} />}
+            />
+            <Route path="/buyer/cart" element={<CartDetail />} />
           </Routes>
         </div>
         <Footer />
