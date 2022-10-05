@@ -48,7 +48,7 @@ const CartDropdown = () => {
         <div className="cart_items">{listItemOnCart}</div>
         <div className="btn_container">
           <Link to="/buyer/cart">
-            <button className="btn_checkout_cart">Tiến hành thanh toán</button>
+            <button className="btn_checkout_cart">Kiểm tra giỏ hàng</button>
           </Link>
         </div>
       </div>

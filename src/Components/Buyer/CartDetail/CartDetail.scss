@@ -1,0 +1,40 @@
+.cart-container {
+  margin: 3rem;
+
+  .item-container {
+    display: flex;
+    flex-wrap: nowrap;
+    border-bottom: 1px solid rgb(127, 101, 101);
+    margin: 2vh;
+    padding-bottom: 0.5rem;
+    .item_detail {
+      font-family: "Roboto";
+      margin-left: 1rem;
+      .change_quantity_btn {
+        cursor: pointer;
+        border: none;
+        border-radius: 2px;
+        background-color: rgb(149, 172, 149);
+        margin: 0 2vw;
+      }
+    }
+    .delete_product_btn {
+      cursor: pointer;
+      border: none;
+      background-color: red;
+      color: white;
+      border-radius: 5px;
+    }
+    .delete_product_btn:hover {
+      opacity: 0.8;
+    }
+  }
+}
+
+.item-img-container {
+  display: flex !important;
+  justify-content: center;
+  img {
+    width: 100%;
+  }
+}

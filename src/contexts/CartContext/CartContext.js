@@ -1,4 +1,4 @@
-import { createContext, useState } from "react";
+import { createContext, useMemo, useState } from "react";
 import { ProductData } from "../../shared/dataTable";
 
 const addCartItem = (cartItems, productAdd) => {
@@ -15,6 +15,26 @@ const addCartItem = (cartItems, productAdd) => {
   //Nếu không, trả về một mảng chứa object item mới
   return [...cartItems, { ...productAdd, quantity: 1 }];
 };
+//Hàm giảm số lượng product add
+const removeCartItem = (cartItems, productRemove) => {
+  //Kiểm tra đã tồn tại sản phẩm trong cart chưa
+  const existItem = cartItems.find(
+    (cartitem) => cartitem.id === productRemove.id
+  );
+  console.log("existItem", existItem);
+  //Nếu đã có, giảm số lượng lên 1
+  if (existItem) {
+    if (existItem.quantity > 1) {
+      return cartItems.map((item) =>
+        item.id === productRemove.id
+          ? { ...item, quantity: item.quantity - 1 }
+          : item
+      );
+    }
+    // Nếu số lượng = 1, xóa khỏi giỏ hàng
+    return cartItems.filter((item) => item.id !== productRemove.id);
+  }
+};
 
 export const CartContext = createContext();
 export const CardContextProvider = ({ children }) => {
@@ -27,19 +47,33 @@ export const CardContextProvider = ({ children }) => {
   };
 
   //Add item to Cart
-  const [count, setCount] = useState(0);
   const [cartItems, setCartItems] = useState([]);
+  // Variable to count product on cart
+  const count = useMemo(
+    () => cartItems.reduce((sum, cur) => sum + cur.quantity, 0),
+    [cartItems]
+  );
   const addItemToCart = (productAdd) => {
     setCartItems(addCartItem(cartItems, productAdd));
-    setCount(count + 1);
   };
+  //Remove item from Cart
+  const removeItemFromCart = (productRemove) => {
+    setCartItems(removeCartItem(cartItems, productRemove));
+  };
+  //Delete item
+  const deleteItem = (id) => {
+    setCartItems((products) => products.filter((ele) => id !== ele.id));
+  };
+
   const value = {
     products: products,
     isOpenCart: isOpenCart,
     toogleCheckoutCart: toogleCheckoutCart,
     count: count,
     addItemToCart: addItemToCart,
+    removeItemFromCart: removeItemFromCart,
     cartItems: cartItems,
+    deleteItem: deleteItem,
   };
   return <CartContext.Provider value={value}>{children}</CartContext.Provider>;
 };

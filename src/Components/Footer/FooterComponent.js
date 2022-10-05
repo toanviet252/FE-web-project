@@ -55,18 +55,18 @@ const Footer = () => {
         <div className="social-link">
           <ul>
             <li>
-              <a>
+              <a href="#">
                 <i className="fa fa-facebook-official" aria-hidden="true"></i>{" "}
                 Facebook
               </a>
             </li>
             <li>
-              <a>
+              <a href="#">
                 <i className="fa fa-instagram" aria-hidden="true"></i> Instagram
               </a>
             </li>
             <li>
-              <a>
+              <a href="#">
                 <i className="fa fa-twitter" aria-hidden="true"></i> Twiter
               </a>
             </li>
@@ -84,7 +84,7 @@ const Footer = () => {
           border="0"
         />
         <img
-          src="https://upload.wikimedia.org/wikipedia/commons/thumb/b/b7/MasterCard_Logo.svg/2560px-MasterCard_Logo.svg.png"
+          src="https://upload.wikimedia.org/wikipedia/commons/thumb/2/2a/Mastercard-logo.svg/772px-Mastercard-logo.svg.png"
           width="57"
           height="36"
           alt="master-card-logo"
