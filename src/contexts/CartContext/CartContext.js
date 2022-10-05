@@ -1,4 +1,4 @@
-import { createContext, useMemo, useState } from "react";
+import { createContext, useEffect, useMemo, useState } from "react";
 import { ProductData } from "../../shared/dataTable";
 
 const addCartItem = (cartItems, productAdd) => {
@@ -65,6 +65,14 @@ export const CardContextProvider = ({ children }) => {
     setCartItems((products) => products.filter((ele) => id !== ele.id));
   };
 
+  const [total, setTotal] = useState(0);
+  useEffect(() => {
+    const newTotal = cartItems.reduce((total, curr) => {
+      return total + curr.quantity * curr.cost;
+    }, 0);
+    setTotal(newTotal);
+  }, [cartItems]);
+
   const value = {
     products: products,
     isOpenCart: isOpenCart,
@@ -74,6 +82,7 @@ export const CardContextProvider = ({ children }) => {
     removeItemFromCart: removeItemFromCart,
     cartItems: cartItems,
     deleteItem: deleteItem,
+    total: total,
   };
   return <CartContext.Provider value={value}>{children}</CartContext.Provider>;
 };

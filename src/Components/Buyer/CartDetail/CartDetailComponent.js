@@ -67,6 +67,7 @@ const CartDetail = () => {
   };
   //Hàm xóa sản phẩm
   const deleteItem = (id) => cartContext.deleteItem(id);
+  const total = cartContext.total;
 
   const listCartItemsOnCart = cartItems.map((item) => {
     return (
@@ -82,7 +83,17 @@ const CartDetail = () => {
   return (
     <>
       {listCartItemsOnCart.length ? (
-        <div className="cart-container">{listCartItemsOnCart}</div>
+        <div className="cart-container">
+          {listCartItemsOnCart}
+          <div className="payment_container">
+            <div className="total-products">
+              <h2>Tổng: {total.toLocaleString()} VNĐ</h2>
+            </div>
+            <div className="btn_payment_container">
+              <button className="btn_payment">Thanh toán ngay!</button>
+            </div>
+          </div>
+        </div>
       ) : (
         <div className="Empty-cart">
           <h1>Chưa có sản phẩm nào</h1>
