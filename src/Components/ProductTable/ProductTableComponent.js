@@ -1,11 +1,14 @@
-import React, { useCallback, useState } from "react";
+import React, { useCallback, useState, useContext } from "react";
 import { Modal, Table, Form, Input, Select, message } from "antd";
 import "./table.scss";
 import { useSearch } from "../../hooks/useSearch";
 import { Option } from "antd/lib/mentions";
 import dateFormat from "dateformat";
+import { CartContext } from "../../contexts/CartContext/CartContext";
 
 const ProductTable = (props) => {
+  const cartContext = useContext(CartContext);
+  const { products, addProduct, deleteProduct, editProduct } = cartContext;
   // Các hàm và hook update sản phẩm:
   const [openEdit, setOpenEdit] = useState(false);
   const [dataRecord, setdataRecord] = useState(null);
@@ -15,16 +18,16 @@ const ProductTable = (props) => {
     setdataRecord({ ...record });
   };
   const onSubmitEdit = () => {
-    // console.log("data", newData);
-    setDataTable((pre) => {
-      return pre.map((product) => {
-        if (product.id === dataRecord.id) {
-          return dataRecord;
-        } else {
-          return product;
-        }
-      });
-    });
+    // setDataTable((pre) => {
+    //   return pre.map((product) => {
+    //     if (product.id === dataRecord.id) {
+    //       return dataRecord;
+    //     } else {
+    //       return product;
+    //     }
+    //   });
+    // });
+    editProduct(dataRecord);
     setOpenEdit(false);
     message.success("Cập nhật thành công.");
   };
@@ -36,22 +39,31 @@ const ProductTable = (props) => {
     });
   }, []);
 
-  //Xóa cột
-  const onDeleteProduct = useCallback((id) => {
-    Modal.confirm({
-      title: "Bạn có muốn xóa cột?",
-      onOk: () => {
-        setDataTable((products) => products.filter((ele) => id !== ele.id));
-        message.success("Xóa thành công");
-      },
-      okText: "Có",
-      cancelText: "Không",
-      okType: "danger",
-    });
-  }, []);
-  const customColums = useSearch({ onDeleteProduct, onEditProduct }); //truyền hàm delete và update xuống
+  // const [dataTable, setDataTable] = useState(cartContext.products);
+  // const [dataTable, setDataTable] = useState(props.dataProduct);
 
-  const [dataTable, setDataTable] = useState(props.dataProduct);
+  // useEffect(() => {
+  //   setDataTable(cartContext.products);
+  // }, [cartContext.products]);
+
+  //Xóa cột
+  const onDeleteProduct = useCallback(
+    (id) => {
+      Modal.confirm({
+        title: "Bạn có muốn xóa cột?",
+        onOk: () => {
+          deleteProduct(id);
+          message.success("Xóa thành công");
+        },
+        okText: "Có",
+        cancelText: "Không",
+        okType: "danger",
+      });
+    },
+    [deleteProduct]
+  );
+
+  const customColums = useSearch({ onDeleteProduct, onEditProduct }); //truyền hàm delete và update xuống
 
   // Thêm sản phẩm
   const [form] = Form.useForm();
@@ -74,9 +86,7 @@ const ProductTable = (props) => {
     };
     console.log(newProduct);
     //Thêm vào data table
-    setDataTable((pre) => {
-      return [...pre, newProduct];
-    });
+    addProduct(newProduct);
     setOpen(false);
     message.success("Đã thêm sản phẩm.");
   };
@@ -256,12 +266,11 @@ const ProductTable = (props) => {
         bordered
         size="medium"
         columns={customColums}
-        dataSource={dataTable}
+        dataSource={products}
         rowKey={"id"}
         scroll={{
           x: 1500,
         }}
-        // onChange={onChange}
       ></Table>
     </div>
   );

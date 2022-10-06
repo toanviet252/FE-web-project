@@ -2,6 +2,7 @@ import React, { useContext } from "react";
 import { CartContext } from "../../../contexts/CartContext/CartContext";
 import { Row, Col } from "antd";
 import "./CartDetail.scss";
+import logo from "./102661.png";
 
 function RenderItem({ item, increaseItem, decreaseItem, deleteItem }) {
   return (
@@ -97,6 +98,9 @@ const CartDetail = () => {
       ) : (
         <div className="Empty-cart">
           <h1>Chưa có sản phẩm nào</h1>
+          <div className="img_container_cart">
+            <img src={logo} alt="empty_cart_img" />
+          </div>
         </div>
       )}
     </>

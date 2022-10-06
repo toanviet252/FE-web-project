@@ -49,13 +49,12 @@ const RenderCardProduct = ({ product, addItemToCart }) => {
 const BuyerPage = (props) => {
   //Add product to card
   const cartContext = useContext(CartContext);
-  console.log(cartContext.cartItems);
-
   // Set data lấy ra mảng gồm các sản phẩm
   const [products, setProducts] = useState({
     products: props.dataProduct,
     filters: new Set(),
   });
+
   //Hàm lọc checkbox => Sau đó truyền xuống component FilterBody
   const handleFilterCheckbox = (event) => {
     setProducts((pre) => {
@@ -107,7 +106,7 @@ const BuyerPage = (props) => {
     console.log(e.target.value);
   };
 
-  const productList = products.products
+  const productList = products?.products
     //lọc lần 1 dùng search
     .filter((val) => {
       if (

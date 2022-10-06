@@ -1,5 +1,13 @@
-import { createContext, useEffect, useMemo, useState } from "react";
-import { ProductData } from "../../shared/dataTable";
+import { message, Modal } from "antd";
+import {
+  createContext,
+  useCallback,
+  useEffect,
+  useMemo,
+  useState,
+} from "react";
+
+import { getProductsAndDocuments } from "../../utils/firebase/firebase";
 
 const addCartItem = (cartItems, productAdd) => {
   //Kiểm tra đã tồn tại sản phẩm trong cart chưa
@@ -38,8 +46,37 @@ const removeCartItem = (cartItems, productRemove) => {
 
 export const CartContext = createContext();
 export const CardContextProvider = ({ children }) => {
-  // eslint-disable-next-line
-  const [products, setProducts] = useState(ProductData);
+  const [products, setProducts] = useState([]);
+  //Lấy data từi Firestore và set vào products
+  useEffect(() => {
+    (async () => {
+      setProducts(await getProductsAndDocuments());
+      // console.log(productMap);
+      // setProducts(productMap);
+    })();
+  }, []);
+
+  console.log(products);
+  // useEffect(() => {
+  //   addCollectionAndDocuments("products", ProductData);
+  // }, []);
+
+  //Các hàm thêm, sửa, xóa trong table
+  const addProduct = useCallback((newProduct) => {
+    setProducts((products) => [...products, newProduct]);
+  }, []);
+  const deleteProduct = useCallback((id) => {
+    setProducts((products) => products.filter((ele) => id !== ele.id));
+  }, []);
+  const editProduct = useCallback((newRecord) => {
+    setProducts((pre) => {
+      return pre.map((product) => {
+        if (product.id === newRecord.id) return newRecord;
+        return product;
+      });
+    });
+  }, []);
+
   //Open Cart
   const [isOpenCart, setIsOpenCart] = useState(false);
   const toogleCheckoutCart = () => {
@@ -62,7 +99,16 @@ export const CardContextProvider = ({ children }) => {
   };
   //Delete item
   const deleteItem = (id) => {
-    setCartItems((products) => products.filter((ele) => id !== ele.id));
+    Modal.confirm({
+      title: "Bạn có muốn sản phẩm khỏi giỏ hàng?",
+      onOk: () => {
+        setCartItems((products) => products.filter((ele) => id !== ele.id));
+        message.info(`Đã xóa!`);
+      },
+      okText: "Có",
+      cancelText: "Không",
+      okType: "danger",
+    });
   };
 
   const [total, setTotal] = useState(0);
@@ -74,15 +120,18 @@ export const CardContextProvider = ({ children }) => {
   }, [cartItems]);
 
   const value = {
-    products: products,
-    isOpenCart: isOpenCart,
-    toogleCheckoutCart: toogleCheckoutCart,
-    count: count,
-    addItemToCart: addItemToCart,
-    removeItemFromCart: removeItemFromCart,
-    cartItems: cartItems,
-    deleteItem: deleteItem,
-    total: total,
+    products,
+    addProduct,
+    deleteProduct,
+    editProduct,
+    isOpenCart,
+    toogleCheckoutCart,
+    count,
+    addItemToCart,
+    removeItemFromCart,
+    cartItems,
+    deleteItem,
+    total,
   };
   return <CartContext.Provider value={value}>{children}</CartContext.Provider>;
 };

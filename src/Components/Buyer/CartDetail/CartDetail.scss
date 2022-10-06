@@ -59,3 +59,15 @@
     width: 100%;
   }
 }
+
+.Empty-cart {
+  height: 600px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  .img_container_cart {
+    img {
+      width: 80%;
+    }
+  }
+}

@@ -5,11 +5,13 @@ import HeaderComponent from "./Components/Header/HeaderComponent";
 import ProductTable from "./Components/ProductTable/ProductTableComponent";
 import { Routes, Route } from "react-router-dom";
 import BuyerPage from "./Components/Buyer/ProductList/BuyerComponent";
-import { ProductData } from "./shared/dataTable";
 import ProductDetail from "./Components/Buyer/ProductDetail/ProductDetailComponent";
 import CartDetail from "./Components/Buyer/CartDetail/CartDetailComponent";
+import { useContext } from "react";
+import { CartContext } from "./contexts/CartContext/CartContext";
 
 function App() {
+  const cartContext = useContext(CartContext);
   return (
     <>
       <div className="wrapper">
@@ -20,16 +22,16 @@ function App() {
             <Route
               index
               path="seller"
-              element={<ProductTable dataProduct={ProductData} />}
+              element={<ProductTable dataProduct={cartContext.products} />}
             />
             <Route
               path="buyer"
-              element={<BuyerPage dataProduct={ProductData} />}
+              element={<BuyerPage dataProduct={cartContext.products} />}
             />
 
             <Route
               path="/buyer/:productId"
-              element={<ProductDetail products={ProductData} />}
+              element={<ProductDetail products={cartContext.products} />}
             />
             <Route path="/buyer/cart" element={<CartDetail />} />
           </Routes>
