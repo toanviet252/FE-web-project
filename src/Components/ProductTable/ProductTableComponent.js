@@ -5,6 +5,7 @@ import { useSearch } from "../../hooks/useSearch";
 import { Option } from "antd/lib/mentions";
 import dateFormat from "dateformat";
 import { CartContext } from "../../contexts/CartContext/CartContext";
+import noImage from "./no_image.jpg";
 
 const ProductTable = (props) => {
   const cartContext = useContext(CartContext);
@@ -18,15 +19,6 @@ const ProductTable = (props) => {
     setdataRecord({ ...record });
   };
   const onSubmitEdit = () => {
-    // setDataTable((pre) => {
-    //   return pre.map((product) => {
-    //     if (product.id === dataRecord.id) {
-    //       return dataRecord;
-    //     } else {
-    //       return product;
-    //     }
-    //   });
-    // });
     editProduct(dataRecord);
     setOpenEdit(false);
     message.success("Cập nhật thành công.");
@@ -46,11 +38,11 @@ const ProductTable = (props) => {
   //   setDataTable(cartContext.products);
   // }, [cartContext.products]);
 
-  //Xóa cột
+  //Xóa một hàng trong bản
   const onDeleteProduct = useCallback(
     (id) => {
       Modal.confirm({
-        title: "Bạn có muốn xóa cột?",
+        title: "Bạn có muốn xóa sản phẩm?",
         onOk: () => {
           deleteProduct(id);
           message.success("Xóa thành công");
@@ -63,7 +55,7 @@ const ProductTable = (props) => {
     [deleteProduct]
   );
 
-  const customColums = useSearch({ onDeleteProduct, onEditProduct }); //truyền hàm delete và update xuống
+  const customColums = useSearch({ onDeleteProduct, onEditProduct }); //truyền hàm delete và update xuống component CustomColumns
 
   // Thêm sản phẩm
   const [form] = Form.useForm();
@@ -83,6 +75,7 @@ const ProductTable = (props) => {
       user: values.user,
       date: dateFormat(new Date(), "yyyy/mm/dd"),
       status: "Còn",
+      image: noImage,
     };
     console.log(newProduct);
     //Thêm vào data table

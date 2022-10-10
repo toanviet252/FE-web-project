@@ -51,8 +51,6 @@ export const CardContextProvider = ({ children }) => {
   useEffect(() => {
     (async () => {
       setProducts(await getProductsAndDocuments());
-      // console.log(productMap);
-      // setProducts(productMap);
     })();
   }, []);
 

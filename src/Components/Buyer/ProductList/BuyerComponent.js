@@ -28,7 +28,7 @@ const RenderCardProduct = ({ product, addItemToCart }) => {
             <p className="cost-product">
               Giá: {product.cost.toLocaleString()} VNĐ
             </p>
-            <p className="remain-product">
+            <p className="sold-product">
               {" "}
               Đã bán: <em>{product.soldProduct}</em>{" "}
             </p>
@@ -106,7 +106,43 @@ const BuyerPage = (props) => {
     console.log(e.target.value);
   };
 
-  const productList = products?.products
+  const [productList, setProductList] = useState(products.products);
+  //Sort list
+  const sortByProductPrice = (sorttype, prdProperty) => {
+    let sortedproductList = [...products.products];
+    let ins = "increase";
+    let desc = "decrease";
+    //sort theo giá
+    if (sorttype === ins && prdProperty === "cost") {
+      sortedproductList.sort((a, b) => {
+        return a.cost - b.cost;
+      });
+    }
+    if (sorttype === desc && prdProperty === "cost") {
+      sortedproductList.sort((a, b) => {
+        return b.cost - a.cost;
+      });
+    }
+    //sort theo sản phẩm còn lại:
+    if (sorttype === ins && prdProperty === "remainProduct") {
+      sortedproductList.sort((a, b) => {
+        return a.remainProduct - b.remainProduct;
+      });
+    }
+    if (sorttype === desc && prdProperty === "remainProduct") {
+      sortedproductList.sort((a, b) => {
+        return b.remainProduct - a.remainProduct;
+      });
+    }
+    if (sorttype === desc && prdProperty === "soldProduct") {
+      sortedproductList.sort((a, b) => {
+        return b.soldProduct - a.soldProduct;
+      });
+    }
+    setProductList(sortedproductList);
+  };
+
+  const List = productList
     //lọc lần 1 dùng search
     .filter((val) => {
       if (
@@ -161,7 +197,43 @@ const BuyerPage = (props) => {
 
         {/* Mở giở hàng chỉ khi click vào icon cart */}
         {cartContext.isOpenCart && <CartDropdown />}
-
+        <Row className="btn-sort-row-feild">
+          <div className="btn-sort-container">
+            <button
+              className="btn-sort"
+              onClick={() => sortByProductPrice("increase", "cost")}
+            >
+              <i class="fa fa-sort-amount-asc" aria-hidden="true"></i> Giá tăng
+              dần
+            </button>
+            <button
+              className="btn-sort"
+              onClick={() => sortByProductPrice("decrease", "cost")}
+            >
+              <i class="fa fa-sort-amount-desc" aria-hidden="true"></i> Giá giảm
+              dần
+            </button>
+            <button
+              className="btn-sort"
+              onClick={() => sortByProductPrice("decrease", "remainProduct")}
+            >
+              <i class="fa fa-sort-amount-desc" aria-hidden="true"></i> Còn
+              nhiều
+            </button>
+            <button
+              className="btn-sort"
+              onClick={() => sortByProductPrice("increase", "remainProduct")}
+            >
+              <i class="fa fa-sort-amount-asc" aria-hidden="true"></i> Còn ít
+            </button>
+            <button
+              className="btn-sort"
+              onClick={() => sortByProductPrice("decrease", "soldProduct")}
+            >
+              <i class="fa fa-sort-amount-asc" aria-hidden="true"></i> Bán chạy
+            </button>
+          </div>
+        </Row>
         <Row className="main-content">
           <Col className="filter-body" span={6}>
             <FilterBody
@@ -175,7 +247,7 @@ const BuyerPage = (props) => {
           </Col>
           <Col className="product-body" span={17}>
             <div className="card-container">
-              <Row gutter={10}>{productList}</Row>
+              <Row gutter={10}>{List}</Row>
             </div>
           </Col>
         </Row>

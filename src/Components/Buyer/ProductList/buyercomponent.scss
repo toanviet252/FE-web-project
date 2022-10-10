@@ -110,3 +110,27 @@ $base-color: #ee4d2d;
     opacity: 1;
   }
 }
+
+.btn-sort-row-feild {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 1rem;
+}
+.btn-sort-container {
+  padding: 15px;
+  // background-color: #ee4d2d;
+  .btn-sort {
+    width: 150px;
+    padding: 0.3rem;
+    cursor: pointer;
+    background-color: rgb(238 77 45);
+    color: white;
+    margin-right: 1rem;
+    font-family: "Roboto";
+    border: none;
+    border-radius: 0.2rem;
+  }
+  .btn-sort:hover {
+    opacity: 0.8;
+  }
+}
