@@ -19,15 +19,8 @@ function App() {
         <div className="main-body">
           <Routes>
             <Route path="/" element={<HomePage />}></Route>
-            <Route
-              index
-              path="seller"
-              element={<ProductTable dataProduct={cartContext.products} />}
-            />
-            <Route
-              path="buyer"
-              element={<BuyerPage dataProduct={cartContext.products} />}
-            />
+            <Route index path="seller" element={<ProductTable />} />
+            <Route path="buyer" element={<BuyerPage />} />
 
             <Route
               path="/buyer/:productId"

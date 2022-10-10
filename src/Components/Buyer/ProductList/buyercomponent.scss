@@ -95,16 +95,21 @@ $base-color: #ee4d2d;
     }
   }
 }
-
-.btn_add_product {
-  border: none;
-  background-color: green;
-  border-radius: 5px;
-  padding: 0.5rem;
-  cursor: pointer;
-  color: white;
-  opacity: 0;
+.btn-add-product-container {
+  display: flex;
+  justify-content: center;
+  .btn_add_product {
+    width: 100%;
+    border: none;
+    background-color: green;
+    border-radius: 5px;
+    padding: 0.5rem;
+    cursor: pointer;
+    color: white;
+    opacity: 0;
+  }
 }
+
 .card-container-items:hover {
   .btn_add_product {
     opacity: 1;

@@ -34,32 +34,42 @@ const RenderCardProduct = ({ product, addItemToCart }) => {
             </p>
           </div>
         </Link>
-        <button
-          type="submit"
-          className="btn_add_product"
-          onClick={addProductToCart}
-        >
-          Thêm vào giỏ hàng
-        </button>
+        <div className="btn-add-product-container">
+          <button
+            type="submit"
+            className="btn_add_product"
+            onClick={addProductToCart}
+          >
+            Thêm vào giỏ hàng
+          </button>
+        </div>
       </Card>
     </Col>
   );
 };
 
-const BuyerPage = (props) => {
+const BuyerPage = () => {
   //Add product to card
   const cartContext = useContext(CartContext);
   // Set data lấy ra mảng gồm các sản phẩm
-  const [products, setProducts] = useState({
-    products: props.dataProduct,
-    filters: new Set(),
+  const [filter, setFilter] = useState({
+    tags: new Set(),
+    priceRange: {
+      priceMin: undefined,
+      priceMax: undefined,
+    },
+    search: undefined,
+    sort: {
+      sortBy: undefined,
+      direction: undefined,
+    },
   });
 
   //Hàm lọc checkbox => Sau đó truyền xuống component FilterBody
   const handleFilterCheckbox = (event) => {
-    setProducts((pre) => {
+    setFilter((pre) => {
       let filters = new Set(pre.filters);
-      let products = pre.products;
+
       //Nếu checkbox đc tích thì thêm giá trị của checkbox đó vào mảng filters
       if (event.target.checked) {
         filters.add(event.target.value);
@@ -67,107 +77,74 @@ const BuyerPage = (props) => {
       } else {
         filters.delete(event.target.value);
       }
-      return { filters, products };
+      return {
+        ...pre,
+        tags: filters,
+      };
     });
   };
-  //setup hàm lọc theo khoảng giá
-  const [price, setPrice] = useState({
-    priceMin: "",
-    priceMax: "",
-  });
-  // Cách 1: Hàm lọc trực tiếp khi input thay đổi
-  // const onHandleInputMin = (e) => {
-  //   console.log(e.target.value);
-  //   setPrice(() => {
-  //     return { priceMin: e.target.value, priceMax: price.priceMax };
-  //   });
-  // };
-  // const onHandleInputMax = (e) => {
-  //   console.log(e.target.value);
-  //   setPrice(() => {
-  //     return { priceMin: price.priceMin, priceMax: e.target.value };
-  //   });
-  // };
-  //Cách 2: Hàm lọc khi người dùng nhất button submit
+  // Hàm lọc khi người dùng nhất button submit
   const handleSubmitFindProduct = (event) => {
-    setPrice(() => {
+    setFilter((pre) => {
       return {
-        priceMin: event.target.input_minValue.value,
-        priceMax: event.target.input_maxValue.value,
+        ...pre,
+        priceRange: {
+          priceMin: event.target.input_minValue.value,
+          priceMax: event.target.input_maxValue.value,
+        },
       };
     });
     event.preventDefault();
   };
 
   //Tìm kiếm theo tên sản phẩm
-  const [keysearch, setKeySearch] = useState("");
   const onChangeFindProduct = (e) => {
-    setKeySearch(e.target.value);
-    console.log(e.target.value);
+    setFilter((pre) => ({
+      ...pre,
+      search: e.target.value,
+    }));
   };
 
-  const [productList, setProductList] = useState(products.products);
   //Sort list
   const sortByProductPrice = (sorttype, prdProperty) => {
-    let sortedproductList = [...products.products];
-    let ins = "increase";
-    let desc = "decrease";
-    //sort theo giá
-    if (sorttype === ins && prdProperty === "cost") {
-      sortedproductList.sort((a, b) => {
-        return a.cost - b.cost;
-      });
-    }
-    if (sorttype === desc && prdProperty === "cost") {
-      sortedproductList.sort((a, b) => {
-        return b.cost - a.cost;
-      });
-    }
-    //sort theo sản phẩm còn lại:
-    if (sorttype === ins && prdProperty === "remainProduct") {
-      sortedproductList.sort((a, b) => {
-        return a.remainProduct - b.remainProduct;
-      });
-    }
-    if (sorttype === desc && prdProperty === "remainProduct") {
-      sortedproductList.sort((a, b) => {
-        return b.remainProduct - a.remainProduct;
-      });
-    }
-    if (sorttype === desc && prdProperty === "soldProduct") {
-      sortedproductList.sort((a, b) => {
-        return b.soldProduct - a.soldProduct;
-      });
-    }
-    setProductList(sortedproductList);
+    setFilter((pre) => ({
+      ...pre,
+      sort: {
+        sortBy: prdProperty,
+        direction: sorttype,
+      },
+    }));
   };
 
-  const List = productList
+  const List = cartContext?.products
     //lọc lần 1 dùng search
-    .filter((val) => {
+    ?.filter((val) => {
       if (
-        keysearch.length > 0 &&
-        !val.name.toLowerCase().includes(keysearch.toLowerCase())
+        filter.search?.length > 0 &&
+        !val.name.toLowerCase().includes(filter.search.toLowerCase())
       )
         return false; //return false sẽ loại bỏ các giá trị ko chứa keyword
       //Lọc lần 2 dùng checkbox
       if (
-        products.filters.size > 0 &&
-        !products.filters.has(val.user) &&
-        products.filters.size > 0 &&
-        !products.filters.has(val.status)
-        //Hoặc có thể dùng toán tử như sau:
-        /*products.filters.size > 0 && !(products.filters.has(val.user) || products.filters.has(val.status))*/
+        filter.tags.size > 0 &&
+        !filter.tags.has(val.user) &&
+        filter.tags.size > 0 &&
+        !filter.tags.has(val.status)
       )
         return false;
       return true; //Lấy lại toàn bộ mảng khi không chạy vào 2 if
     })
     //Lọc theo khoảng giá
     .filter((prd) => {
-      if (prd.cost < parseInt(price.priceMin)) return false;
-      if (prd.cost > parseInt(price.priceMax)) return false;
+      if (prd.cost < parseInt(filter.priceRange.priceMin)) return false;
+      if (prd.cost > parseInt(filter.priceRange.priceMax)) return false;
       return true;
     })
+    .sort((a, b) =>
+      filter.sort.direction === "increase"
+        ? a[filter.sort.sortBy] - b[filter.sort.sortBy]
+        : b[filter.sort.sortBy] - a[filter.sort.sortBy]
+    )
     //trả về mảng sau khi lọc
     .map((product) => {
       return (
@@ -230,7 +207,7 @@ const BuyerPage = (props) => {
               className="btn-sort"
               onClick={() => sortByProductPrice("decrease", "soldProduct")}
             >
-              <i class="fa fa-sort-amount-asc" aria-hidden="true"></i> Bán chạy
+              <i class="fa fa-star" aria-hidden="true"></i> Bán chạy
             </button>
           </div>
         </Row>
@@ -238,10 +215,6 @@ const BuyerPage = (props) => {
           <Col className="filter-body" span={6}>
             <FilterBody
               onFiterChange={handleFilterCheckbox}
-              /* Hàm dùng cho cách 1
-              onhandleInputMin={onHandleInputMin}
-              onhandleInputMax={onHandleInputMax}
-              */
               handleSubmitFindProduct={handleSubmitFindProduct}
             />
           </Col>
