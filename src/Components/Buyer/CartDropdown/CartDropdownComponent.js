@@ -33,8 +33,6 @@ function CartItem({ item }) {
 const CartDropdown = () => {
   const cartContext = useContext(CartContext);
   const cartItems = cartContext.cartItems;
-
-  console.log(">>>>>>>>>>>>>>>>>>>>>>>>", cartItems);
   const listItemOnCart = cartItems?.length ? (
     cartItems.map((item) => <CartItem key={item.id} item={item} />)
   ) : (

@@ -8,6 +8,7 @@ $base-color: #ee4d2d;
   .card-container-items:hover {
     transform: scale(1.05);
     transition: 0.25s ease-out;
+    border: 2px solid $base-color;
   }
 }
 .main-content {

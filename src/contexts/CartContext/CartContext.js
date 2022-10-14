@@ -29,7 +29,6 @@ const removeCartItem = (cartItems, productRemove) => {
   const existItem = cartItems.find(
     (cartitem) => cartitem.id === productRemove.id
   );
-  console.log("existItem", existItem);
   //Nếu đã có, giảm số lượng lên 1
   if (existItem) {
     if (existItem.quantity > 1) {
@@ -49,12 +48,12 @@ export const CardContextProvider = ({ children }) => {
   const [products, setProducts] = useState([]);
   //Lấy data từi Firestore và set vào products
   useEffect(() => {
+    //IIFE hàm được gọi ngay lập tức khi được định nghĩa
     (async () => {
       setProducts(await getProductsAndDocuments());
     })();
   }, []);
 
-  console.log(products);
   // useEffect(() => {
   //   addCollectionAndDocuments("products", ProductData);
   // }, []);

@@ -2,12 +2,15 @@ import React, { useState } from "react";
 import { Modal, Form, Input, Button } from "antd";
 import "./login.scss";
 import { signIn } from "../../utils/firebase/firebase";
+import { useNavigate } from "react-router-dom";
+import SignUp from "../SignUp/SignUpComponent";
 
 const LoginForm = (props) => {
+  const navigate = useNavigate();
   const [form] = Form.useForm();
   const [isOpen, setIsOpen] = useState(false);
   const onCreate = (values) => {
-    console.log(values);
+    props.setUserName(values.username);
     setIsOpen(false);
   };
   const onSubmit = () => {
@@ -16,11 +19,14 @@ const LoginForm = (props) => {
       .then((values) => {
         form.resetFields();
         onCreate(values);
+        props.login();
+        navigate("/buyer");
       })
       .catch((infor) => {
         console.log("Validate failed:", infor);
       });
   };
+
   ////////////////////////////////////
   // Google login users:
   const logGoogleUser = async () => {
@@ -70,13 +76,20 @@ const LoginForm = (props) => {
         <div>
           <h3>Hoặc</h3>
         </div>
-        <button
-          className="google-login-btn"
-          type="submit"
-          onClick={logGoogleUser}
-        >
-          Đăng nhập với google
-        </button>
+        <div className="option-login-container">
+          <button
+            className="google-login-btn"
+            type="submit"
+            onClick={logGoogleUser}
+          >
+            Đăng nhập với google
+          </button>
+        </div>
+        <div className="sign-up-container">
+          <p>
+            Bạn chưa có tài khoản? <SignUp />
+          </p>
+        </div>
       </Modal>
       <Button
         id="btn"

@@ -1,7 +1,8 @@
 import React, { useState } from "react";
 import { Modal, Form, Input, Button, message } from "antd";
+import "./SignUp.scss";
 
-const SignUp = ({ btnSignUp }) => {
+const SignUp = () => {
   const [form] = Form.useForm();
   const [isOpen, setIsOpen] = useState(false);
   const onCreate = (values) => {
@@ -72,7 +73,7 @@ const SignUp = ({ btnSignUp }) => {
             ]}
             hasFeedback
           >
-            <Input.Password placeholder="Email" />
+            <Input.Password placeholder="Nhập mật khẩu" />
           </Form.Item>
           <Form.Item
             label="Email"
@@ -108,15 +109,16 @@ const SignUp = ({ btnSignUp }) => {
       </Modal>
       <Button
         style={{
-          padding: "0 1.5rem",
+          padding: "0px",
+          border: "none",
+          color: "#1890ff",
         }}
-        id="btn"
         type="submit"
         onClick={() => {
           setIsOpen(true);
         }}
       >
-        {btnSignUp ?? "Đăng ký"}
+        Đăng ký ngay!
       </Button>
     </>
   );

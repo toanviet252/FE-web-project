@@ -1,11 +1,28 @@
-import React from "react";
-import { Menu, Col, Row, Space } from "antd";
+import React, { useEffect, useState } from "react";
+import { Menu, Col, Row } from "antd";
 import "./Header.component.scss";
 import LoginForm from "../Login/Logincomponent";
-import SignUp from "../SignUp/SignUpComponent";
-import { NavLink } from "react-router-dom";
+
+import { NavLink, useNavigate } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { authAction } from "../../redux/configureStore";
 
 const HeaderComponent = () => {
+  const dispatch = useDispatch();
+  const isAuth = useSelector((state) => state.isAuthentication);
+  const login = () => {
+    dispatch(authAction.login());
+  };
+  const logout = () => {
+    dispatch(authAction.logout());
+  };
+  const [username, setUserName] = useState("");
+  //Chuyển đang trang home khi đăng xuất
+  const navigate = useNavigate();
+  useEffect(() => {
+    if (!isAuth) return navigate("/");
+    // eslint-disable-next-line
+  }, [isAuth]);
   const items = [
     {
       label: <NavLink to="/seller">Kênh người bán </NavLink>,
@@ -42,14 +59,35 @@ const HeaderComponent = () => {
     <>
       <Row className="nav-menu">
         <Col xs={24} sm={24} lg={15}>
-          <Menu mode="horizontal" items={items} className="nav-items" />
+          {isAuth && (
+            <Menu mode="horizontal" items={items} className="nav-items" />
+          )}
         </Col>
+
         <Col xs={24} sm={12} lg={4} id="form-btn">
-          <Space>
-            <SignUp btnSignUp="Đăng ký" />
-            <LoginForm btnLabel="Đăng nhập" />
-          </Space>
+          {!isAuth && (
+            <LoginForm
+              btnLabel="Đăng nhập"
+              login={login}
+              userName={username}
+              setUserName={setUserName}
+              isLogin={isAuth}
+            />
+          )}
         </Col>
+        {isAuth && (
+          <div className="user-login-container">
+            <h3>Chào {username}</h3>
+            <button
+              onClick={() => {
+                logout();
+              }}
+              className="log-out_btn"
+            >
+              Đăng xuất
+            </button>
+          </div>
+        )}
       </Row>
     </>
   );
