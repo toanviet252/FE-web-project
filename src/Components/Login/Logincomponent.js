@@ -1,7 +1,10 @@
 import React, { useState } from "react";
 import { Modal, Form, Input, Button } from "antd";
 import "./login.scss";
-import { signIn } from "../../utils/firebase/firebase";
+import {
+  signIn,
+  createUserDocumentFromAuth,
+} from "../../utils/firebase/firebase";
 import { useNavigate } from "react-router-dom";
 import SignUp from "../SignUp/SignUpComponent";
 
@@ -11,6 +14,7 @@ const LoginForm = (props) => {
   const [isOpen, setIsOpen] = useState(false);
   const onCreate = (values) => {
     props.setUserName(values.username);
+    props.setUserPhoto("");
     setIsOpen(false);
   };
   const onSubmit = () => {
@@ -30,8 +34,15 @@ const LoginForm = (props) => {
   ////////////////////////////////////
   // Google login users:
   const logGoogleUser = async () => {
-    const respone = await signIn();
-    console.log(respone);
+    const { user } = await signIn();
+    await createUserDocumentFromAuth(user);
+    console.log(user);
+    // tiến hành đăng nhập và chuyển đến trang buyer
+    props.setUserName(user.displayName);
+    props.setUserPhoto(user.photoURL);
+    props.login();
+    setIsOpen(false);
+    navigate("/buyer");
   };
   return (
     <>

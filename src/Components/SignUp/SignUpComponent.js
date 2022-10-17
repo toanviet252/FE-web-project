@@ -39,7 +39,7 @@ const SignUp = () => {
         <Form form={form} name="signup" layout="vertical">
           <Form.Item
             label="Tên đăng nhập"
-            name="username"
+            name="email"
             rules={[
               {
                 required: true,

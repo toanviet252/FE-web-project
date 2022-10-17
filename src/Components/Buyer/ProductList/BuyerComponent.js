@@ -180,34 +180,35 @@ const BuyerPage = () => {
               className="btn-sort"
               onClick={() => sortByProductPrice("increase", "cost")}
             >
-              <i class="fa fa-sort-amount-asc" aria-hidden="true"></i> Giá tăng
-              dần
+              <i className="fa fa-sort-amount-asc" aria-hidden="true"></i> Giá
+              tăng dần
             </button>
             <button
               className="btn-sort"
               onClick={() => sortByProductPrice("decrease", "cost")}
             >
-              <i class="fa fa-sort-amount-desc" aria-hidden="true"></i> Giá giảm
-              dần
+              <i className="fa fa-sort-amount-desc" aria-hidden="true"></i> Giá
+              giảm dần
             </button>
             <button
               className="btn-sort"
               onClick={() => sortByProductPrice("decrease", "remainProduct")}
             >
-              <i class="fa fa-sort-amount-desc" aria-hidden="true"></i> Còn
+              <i className="fa fa-sort-amount-desc" aria-hidden="true"></i> Còn
               nhiều
             </button>
             <button
               className="btn-sort"
               onClick={() => sortByProductPrice("increase", "remainProduct")}
             >
-              <i class="fa fa-sort-amount-asc" aria-hidden="true"></i> Còn ít
+              <i className="fa fa-sort-amount-asc" aria-hidden="true"></i> Còn
+              ít
             </button>
             <button
               className="btn-sort"
               onClick={() => sortByProductPrice("decrease", "soldProduct")}
             >
-              <i class="fa fa-star" aria-hidden="true"></i> Bán chạy
+              <i className="fa fa-star" aria-hidden="true"></i> Bán chạy
             </button>
           </div>
         </Row>

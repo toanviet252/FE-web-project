@@ -29,7 +29,7 @@ const removeCartItem = (cartItems, productRemove) => {
   const existItem = cartItems.find(
     (cartitem) => cartitem.id === productRemove.id
   );
-  //Nếu đã có, giảm số lượng lên 1
+  //Nếu đã có, giảm số lượng đi 1
   if (existItem) {
     if (existItem.quantity > 1) {
       return cartItems.map((item) =>
@@ -94,7 +94,7 @@ export const CardContextProvider = ({ children }) => {
   const removeItemFromCart = (productRemove) => {
     setCartItems(removeCartItem(cartItems, productRemove));
   };
-  //Delete item
+  //Delete item from cart
   const deleteItem = (id) => {
     Modal.confirm({
       title: "Bạn có muốn sản phẩm khỏi giỏ hàng?",
