@@ -1,0 +1,68 @@
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500&family=Roboto:ital,wght@0,100;0,400;0,500;1,100&display=swap");
+
+$fontbasic: "Inter";
+
+.login-container {
+  display: flex;
+  position: absolute;
+  flex-direction: column;
+  align-items: center;
+  width: 400px;
+  height: 400px;
+  background-color: rgb(245, 245, 245);
+  margin: auto;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  border-radius: 1rem;
+  box-shadow: 0px 0px 11px 1px rgba(0, 0, 0, 0.6);
+  -webkit-box-shadow: 0px 0px 11px 1px rgba(0, 0, 0, 0.6);
+  -moz-box-shadow: 0px 0px 11px 1px rgba(0, 0, 0, 0.6);
+  .forget-passwor {
+    font-family: $fontbasic;
+  }
+  .sign-up- container {
+    font-family: $fontbasic;
+  }
+}
+.backdrop {
+  position: relative;
+}
+.header-login {
+  font-family: $fontbasic;
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 8vh;
+  p,
+  h1 {
+    margin: 0;
+  }
+}
+.form-control {
+  width: 100%;
+  padding: 2rem 1rem !important;
+  margin-top: 0.5rem !important;
+  font-family: $fontbasic;
+  .login-btn {
+    width: 100%;
+    cursor: pointer;
+    border: none;
+    padding: 0.5rem 0;
+    background-color: rgb(31, 88, 222);
+    border-radius: 5px;
+    margin-top: 1rem;
+    .link-btn {
+      font-family: $fontbasic;
+      color: white;
+    }
+    &:hover {
+      opacity: 0.9;
+    }
+  }
+  label::before {
+    display: none !important;
+  }
+}

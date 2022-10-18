@@ -1,0 +1,50 @@
+.sidebar-chat {
+  position: relative;
+}
+.head-container {
+  display: flex;
+  justify-content: space-between;
+  padding: 0.2rem 0.5rem;
+  align-items: center;
+  .current-user-container {
+    display: flex;
+    align-items: center;
+    .avatar-container {
+      margin-right: 0.5rem;
+    }
+    .user-detail {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      h4,
+      p {
+        margin: 0;
+      }
+    }
+  }
+}
+.hidden-nav {
+  position: relative;
+  .icon-btn {
+    border: none;
+    cursor: pointer;
+    padding: 0 0.5rem;
+    border-radius: 3px;
+  }
+  .nav-list {
+    position: absolute;
+    font-family: "Inter";
+    top: 25px;
+    right: 15px;
+    list-style: none;
+    width: 200px;
+    background-color: aliceblue;
+    padding: 0.5rem 1rem;
+    border-radius: 5px;
+    z-index: 4;
+  }
+}
+.input-feild {
+  margin: 0.5rem 1rem;
+  z-index: 5;
+}

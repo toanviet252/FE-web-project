@@ -1,0 +1,19 @@
+.body-chat-wrapper {
+  width: 70vw;
+  height: 80vh;
+  background-color: aliceblue;
+  margin: auto;
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  right: 0;
+  left: 0;
+  border-radius: 1rem;
+  overflow: hidden;
+  .body-main {
+    height: 100%;
+  }
+  .sidebar-chat {
+    background-color: blue;
+  }
+}
