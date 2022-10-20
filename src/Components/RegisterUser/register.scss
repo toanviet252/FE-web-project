@@ -31,7 +31,9 @@
       margin-bottom: 1.5rem;
     }
   }
-  @media screen and (max-width: 600px) {
+}
+@media screen and (max-width: 600px) {
+  .register-form-container {
     width: 95vw;
   }
 }

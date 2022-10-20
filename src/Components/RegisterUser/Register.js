@@ -1,5 +1,5 @@
 import "./register.scss";
-import { DatePicker, Form, Input } from "antd";
+import { DatePicker, Form, Input, message } from "antd";
 import {
   UserOutlined,
   PhoneOutlined,
@@ -7,14 +7,45 @@ import {
   LockOutlined,
   UnlockOutlined,
 } from "@ant-design/icons";
-// import { useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
+import {
+  createUserByEmailAndPass,
+  createUserDocumentFromAuth,
+} from "../../utils/Firebase/firebase";
+import { updateProfile } from "firebase/auth";
 
 const RegisterUser = () => {
-  // const navigate = useNavigate();
+  const navigate = useNavigate();
   const [form] = Form.useForm();
-  const onSubmit = (val) => {
-    console.log(val);
-    // navigate("/user");
+  //Create authenticated user and post to Firestore
+  const onCreate = async (values) => {
+    const { email, password, dateBirth, phoneNumber, userName } = values;
+    const dateOfBirth = dateBirth.format("DD/MM/YYYY");
+    try {
+      const { user } = await createUserByEmailAndPass(email, password);
+      await createUserDocumentFromAuth(user, { dateOfBirth, phoneNumber });
+      await updateProfile(user, {
+        displayName: userName,
+        photoURL: null,
+      });
+      await navigate("/");
+      await message.success("Register account successed");
+    } catch (err) {
+      if (err.code === "auth/email-already-in-use") {
+        message.warning(
+          "Email has already in used. Please choose another email!"
+        );
+      } else {
+        console.log("Error from create user", err);
+      }
+    }
+  };
+  const onSubmit = () => {
+    form.validateFields().then((values) => {
+      // console.log(value.dateBirth.format("DD/MM/YYYY"));
+      onCreate(values);
+      form.resetFields();
+    });
   };
   return (
     <div className="register-form-container">
@@ -28,7 +59,7 @@ const RegisterUser = () => {
       >
         <Form.Item
           label="Username"
-          name="username"
+          name="userName"
           className="register-items"
           rules={[
             {

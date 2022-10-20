@@ -3,6 +3,10 @@ import React from "react";
 import { Form, Input } from "antd";
 import { Link } from "react-router-dom";
 import { LockOutlined, MailOutlined } from "@ant-design/icons";
+import {
+  signInWithGoogleAcc,
+  createUserDocumentFromAuth,
+} from "../../utils/Firebase/firebase";
 
 const Login = () => {
   const [form] = Form.useForm();
@@ -10,6 +14,11 @@ const Login = () => {
   const onSubmit = (values) => {
     console.log("user", values);
     // navigate("/user");
+  };
+  const logInByGoogleAcc = async () => {
+    const { user } = await signInWithGoogleAcc();
+    await createUserDocumentFromAuth(user);
+    console.log(user);
   };
   return (
     <>
@@ -71,7 +80,11 @@ const Login = () => {
             </button>
           </Form>
           <div className="login-by-google-account">
-            <button className="log-google-acc-btn">
+            <button
+              type="submit"
+              className="log-google-acc-btn"
+              onClick={() => logInByGoogleAcc()}
+            >
               <i
                 className="fa fa-lg fa-google-plus-square"
                 aria-hidden="true"
