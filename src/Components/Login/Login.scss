@@ -1,7 +1,3 @@
-@import url("https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500&family=Roboto:ital,wght@0,100;0,400;0,500;1,100&display=swap");
-
-$fontbasic: "Inter";
-
 .login-container {
   display: flex;
   position: absolute;
@@ -9,7 +5,7 @@ $fontbasic: "Inter";
   align-items: center;
   width: 400px;
   height: 400px;
-  background-color: rgb(245, 245, 245);
+  background-color: #fff;
   margin: auto;
   top: 0;
   right: 0;
@@ -19,18 +15,43 @@ $fontbasic: "Inter";
   box-shadow: 0px 0px 11px 1px rgba(0, 0, 0, 0.6);
   -webkit-box-shadow: 0px 0px 11px 1px rgba(0, 0, 0, 0.6);
   -moz-box-shadow: 0px 0px 11px 1px rgba(0, 0, 0, 0.6);
-  .forget-passwor {
-    font-family: $fontbasic;
+  .login-by-google-account {
+    width: calc(100% - 2rem);
+
+    .log-google-acc-btn {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 100%;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      background-color: rgb(31, 88, 222);
+      padding: 0.5rem 0;
+      color: white;
+      margin-bottom: 0.5rem;
+      &:hover {
+        opacity: 0.9;
+      }
+      i {
+        font-size: 2rem;
+        margin-right: 0.5rem;
+        color: rgb(219, 226, 231);
+      }
+    }
   }
-  .sign-up- container {
-    font-family: $fontbasic;
+}
+
+@media screen and (max-width: 600px) {
+  .login-container {
+    width: 90vw;
+    height: 60vh;
   }
 }
 .backdrop {
   position: relative;
 }
 .header-login {
-  font-family: $fontbasic;
   display: flex;
   justify-content: center;
   flex-direction: column;
@@ -39,28 +60,31 @@ $fontbasic: "Inter";
   p,
   h1 {
     margin: 0;
+    // font-size: 20px;
+    background: -webkit-linear-gradient(0deg, #b240b2 0%, #115c64 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
   }
 }
 .form-control {
   width: 100%;
-  padding: 2rem 1rem !important;
+  padding: 2rem 1rem 1rem 1rem !important;
   margin-top: 0.5rem !important;
-  font-family: $fontbasic;
   .login-btn {
     width: 100%;
     cursor: pointer;
     border: none;
     padding: 0.5rem 0;
-    background-color: rgb(31, 88, 222);
+    background-color: #ba80cc;
     border-radius: 5px;
     margin-top: 1rem;
-    .link-btn {
-      font-family: $fontbasic;
-      color: white;
-    }
+    color: #fff;
     &:hover {
       opacity: 0.9;
     }
+  }
+  label {
+    font-weight: 500;
   }
   label::before {
     display: none !important;

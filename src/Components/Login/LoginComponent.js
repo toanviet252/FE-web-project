@@ -1,14 +1,15 @@
 import "./Login.scss";
 import React from "react";
-import { Form, Input, Button } from "antd";
-import { useNavigate } from "react-router-dom";
+import { Form, Input } from "antd";
+import { Link } from "react-router-dom";
+import { LockOutlined, MailOutlined } from "@ant-design/icons";
 
 const Login = () => {
   const [form] = Form.useForm();
-  const navigate = useNavigate();
+  // const navigate = useNavigate();
   const onSubmit = (values) => {
     console.log("user", values);
-    navigate("/user");
+    // navigate("/user");
   };
   return (
     <>
@@ -39,7 +40,10 @@ const Login = () => {
               ]}
               hasFeedback
             >
-              <Input placeholder="Your email "></Input>
+              <Input
+                prefix={<MailOutlined />}
+                placeholder="Your email "
+              ></Input>
             </Form.Item>
             <Form.Item
               label="Password"
@@ -56,21 +60,33 @@ const Login = () => {
               ]}
               hasFeedback
             >
-              <Input.Password placeholder="Your password" />
+              <Input.Password
+                prefix={<LockOutlined />}
+                placeholder="Your password"
+              />
             </Form.Item>
 
             <button type="submit" className="login-btn">
               Login
             </button>
           </Form>
+          <div className="login-by-google-account">
+            <button className="log-google-acc-btn">
+              <i
+                className="fa fa-lg fa-google-plus-square"
+                aria-hidden="true"
+              ></i>
+              Login with Google Account
+            </button>
+          </div>
           <div className="forget-password">
             <p>
               <a href="#"> Forget password?</a>{" "}
             </p>
           </div>
-          <div className="sign-up- container">
+          <div className="sign-up-container">
             <p>
-              Don't have account? Register <a href="#">here</a>.
+              Don't have account? Register <Link to="/register">here</Link>.
             </p>
           </div>
         </div>

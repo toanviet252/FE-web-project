@@ -1,11 +1,8 @@
-.sidebar-chat {
-  position: relative;
-}
 .head-container {
   display: flex;
   justify-content: space-between;
-  padding: 0.2rem 0.5rem;
   align-items: center;
+  margin: 0.5rem 1rem;
   .current-user-container {
     display: flex;
     align-items: center;
@@ -19,6 +16,8 @@
       h4,
       p {
         margin: 0;
+        font-family: "Inter";
+        color: #fff;
       }
     }
   }
@@ -30,6 +29,13 @@
     cursor: pointer;
     padding: 0 0.5rem;
     border-radius: 3px;
+    &:hover {
+      background-color: rgb(43, 59, 201);
+      color: white;
+      transform: scale(1.1);
+      transition: 0.2s ease-in-out;
+      // border: 1px solid blue;
+    }
   }
   .nav-list {
     position: absolute;
