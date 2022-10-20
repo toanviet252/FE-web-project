@@ -7,6 +7,7 @@ import "antd/dist/antd.min.css";
 import "font-awesome/css/font-awesome.css";
 import { BrowserRouter } from "react-router-dom";
 import { CardContextProvider } from "./contexts/CartContext/CartContext";
+import { UserContextProvider } from "./contexts/CartContext/UserContext";
 import { Provider } from "react-redux";
 import { store } from "./redux/configureStore";
 
@@ -15,9 +16,11 @@ root.render(
   <React.StrictMode>
     <BrowserRouter>
       <Provider store={store}>
-        <CardContextProvider>
-          <App />
-        </CardContextProvider>
+        <UserContextProvider>
+          <CardContextProvider>
+            <App />
+          </CardContextProvider>
+        </UserContextProvider>
       </Provider>
     </BrowserRouter>
   </React.StrictMode>

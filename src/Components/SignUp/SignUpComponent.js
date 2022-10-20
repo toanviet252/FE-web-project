@@ -1,12 +1,34 @@
 import React, { useState } from "react";
 import { Modal, Form, Input, Button, message } from "antd";
 import "./SignUp.scss";
+import {
+  createUser,
+  createUserDocumentFromAuth,
+} from "../../utils/firebase/firebase";
+import { updateProfile } from "firebase/auth";
 
 const SignUp = () => {
   const [form] = Form.useForm();
   const [isOpen, setIsOpen] = useState(false);
-  const onCreate = (values) => {
-    console.log(values);
+  const onCreate = async (values) => {
+    //Giá trị mà người dùng nhập vào
+    const { displayName, email, password, phoneNumber } = values;
+    try {
+      const { user } = await createUser(email, password);
+      await createUserDocumentFromAuth(user, { displayName, phoneNumber });
+      //Update lại để đồng bộ databse với authentication trên Firebase
+      await updateProfile(user, {
+        displayName: displayName,
+        photoURL: null, //giá trị này sẽ lấy khi người dùng đăng ảnh (chưa thực hiện)
+      });
+      //Ngoài ra ta có thêm update thêm các thông tin khác như 'phoneNumber, password, email"... bằng các hàm do firebase cung cấp.
+    } catch (err) {
+      if (err.code === "auth/email-already-in-use") {
+        alert("Email đã được sử dụng! Vui lòng chọn email khác");
+      } else {
+        console.log("Error create User", err);
+      }
+    }
     setIsOpen(false);
   };
   const onSubmit = () => {
@@ -39,7 +61,7 @@ const SignUp = () => {
         <Form form={form} name="signup" layout="vertical">
           <Form.Item
             label="Tên đăng nhập"
-            name="email"
+            name="displayName"
             rules={[
               {
                 required: true,
@@ -94,7 +116,7 @@ const SignUp = () => {
           </Form.Item>
           <Form.Item
             label="Số điện thoại"
-            name="telephone"
+            name="phoneNumber"
             rules={[
               {
                 required: true,

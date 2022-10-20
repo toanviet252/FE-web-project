@@ -1,9 +1,10 @@
 import React, { useState } from "react";
-import { Modal, Form, Input, Button } from "antd";
+import { Modal, Form, Input, Button, message } from "antd";
 import "./login.scss";
 import {
-  signIn,
+  signInWithGoogleAcc,
   createUserDocumentFromAuth,
+  signInUser,
 } from "../../utils/firebase/firebase";
 import { useNavigate } from "react-router-dom";
 import SignUp from "../SignUp/SignUpComponent";
@@ -12,19 +13,33 @@ const LoginForm = (props) => {
   const navigate = useNavigate();
   const [form] = Form.useForm();
   const [isOpen, setIsOpen] = useState(false);
-  const onCreate = (values) => {
-    props.setUserName(values.username);
-    props.setUserPhoto("");
-    setIsOpen(false);
+  const onCreate = async (values) => {
+    const { email, password } = values;
+    try {
+      const { user } = await signInUser(email, password);
+      console.log(user);
+      //Sau đó lấy data ra để set tên cho người dùng:
+      await props.setUserName(user.displayName);
+      await props.login();
+      await navigate("/buyer");
+    } catch (err) {
+      switch (err.code) {
+        case "auth/user-not-found":
+          message.warning("Nhập sai email");
+          break;
+        case "auth/wrong-password":
+          message.warning("Nhập sai password");
+          break;
+        default:
+          console.log(err);
+      }
+    }
   };
   const onSubmit = () => {
     form
       .validateFields()
       .then((values) => {
-        form.resetFields();
         onCreate(values);
-        props.login();
-        navigate("/buyer");
       })
       .catch((infor) => {
         console.log("Validate failed:", infor);
@@ -34,7 +49,7 @@ const LoginForm = (props) => {
   ////////////////////////////////////
   // Google login users:
   const logGoogleUser = async () => {
-    const { user } = await signIn();
+    const { user } = await signInWithGoogleAcc();
     await createUserDocumentFromAuth(user);
     console.log(user);
     // tiến hành đăng nhập và chuyển đến trang buyer
@@ -44,6 +59,7 @@ const LoginForm = (props) => {
     setIsOpen(false);
     navigate("/buyer");
   };
+
   return (
     <>
       <Modal
@@ -60,16 +76,20 @@ const LoginForm = (props) => {
       >
         <Form form={form} name="login" layout="vertical">
           <Form.Item
-            label="Tên đăng nhập:"
-            name="username"
+            label="Email:"
+            name="email"
             rules={[
               {
                 required: true,
                 message: "Không được bỏ trống!",
               },
+              {
+                type: "email",
+                message: "Email không đúng định dạng!",
+              },
             ]}
           >
-            <Input type="text" placeholder="Nhập tên đăng nhập của bạn" />
+            <Input type="text" placeholder="Nhập email của bạn" />
           </Form.Item>
           <Form.Item
             label="Mật khẩu:"

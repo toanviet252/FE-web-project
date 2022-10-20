@@ -1,5 +1,11 @@
 import { initializeApp } from "firebase/app";
-import { getAuth, signInWithPopup, GoogleAuthProvider } from "firebase/auth";
+import {
+  getAuth,
+  signInWithPopup,
+  GoogleAuthProvider,
+  createUserWithEmailAndPassword,
+  signInWithEmailAndPassword,
+} from "firebase/auth";
 import {
   getFirestore,
   collection,
@@ -32,13 +38,17 @@ provider.getCustomParameters({
 });
 
 //Doc chứa 3 tham số, tham số đầu tiên là database, tham số thứ 2 là tên của collection, tham số thứ 3 là data của người dùng chuyền vào collection đó
-export const createUserDocumentFromAuth = async (userAuth) => {
+export const createUserDocumentFromAuth = async (
+  userAuth,
+  additionalInfor = {}
+) => {
+  if (!userAuth) return;
   const userDocRef = doc(db, "users", userAuth.uid); //Ở đây ta lấy uid do google cung cấp để dịnh danh user
-  console.log(userDocRef);
+  console.log("userAuth", userAuth);
   const userSnapshot = await getDoc(userDocRef);
-  console.log(userSnapshot);
-  console.log(userSnapshot.exists());
-  //Kiểm tra xem người dùng đã có trên database hay chưa, nếu không tạo một users mới
+  // console.log(userSnapshot);
+  // console.log(userSnapshot.exists());
+  //Kiểm tra xem người dùng đã có trên database hay chưa, nếu chưa thì tạo một users mới
   if (!userSnapshot.exists()) {
     const { displayName, email, photoURL } = userAuth;
     const createDateUser = new Date();
@@ -48,6 +58,7 @@ export const createUserDocumentFromAuth = async (userAuth) => {
         email,
         photoURL,
         createDateUser,
+        ...additionalInfor,
       });
     } catch (err) {
       console.log("error from create account", err);
@@ -56,7 +67,25 @@ export const createUserDocumentFromAuth = async (userAuth) => {
   //Nếu đã tồn tại thì trả về thông tin users
   return userDocRef;
 };
+//Hàm đăng ký user bằng email và password
+export const createUser = async (email, password) => {
+  if (!email || !password) return;
+  return await createUserWithEmailAndPassword(auth, email, password);
+};
+// Hàm đăng nhập bằng email và password
+export const signInUser = async (email, password) => {
+  if (!email || !password) return;
+  return await signInWithEmailAndPassword(auth, email, password);
+};
 
+// // Update user Profile
+// export const updateProfile = async (user, { displayName, photoURL }) => {
+//   return {
+//     displayName:
+//   }
+// };
+
+// Hàm đẩy data sản phẩm lên firestore
 export const addCollectionAndDocuments = async (collectKey, objectsToAdd) => {
   const collectionRef = collection(db, collectKey);
   const batch = writeBatch(db);
@@ -68,7 +97,7 @@ export const addCollectionAndDocuments = async (collectKey, objectsToAdd) => {
   await batch.commit();
   console.log("done");
 };
-
+// Hàm lấy data sản phẩm từ firestore về app
 export const getProductsAndDocuments = async () => {
   const collectionRef = collection(db, "products");
   const q = query(collectionRef);
@@ -80,4 +109,4 @@ export const getProductsAndDocuments = async () => {
 };
 
 export const auth = getAuth();
-export const signIn = () => signInWithPopup(auth, provider);
+export const signInWithGoogleAcc = () => signInWithPopup(auth, provider);
