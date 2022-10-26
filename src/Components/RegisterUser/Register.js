@@ -1,5 +1,6 @@
 import "./register.scss";
-import { DatePicker, Form, Input, message } from "antd";
+import { DatePicker, Form, Input, message, Spin } from "antd";
+import { LoadingOutlined } from "@ant-design/icons";
 import {
   UserOutlined,
   PhoneOutlined,
@@ -13,22 +14,30 @@ import {
   createUserDocumentFromAuth,
 } from "../../utils/Firebase/firebase";
 import { updateProfile } from "firebase/auth";
+import { useState } from "react";
 
 const RegisterUser = () => {
+  const [isRegister, setIsRegister] = useState(false);
   const navigate = useNavigate();
   const [form] = Form.useForm();
   //Create authenticated user and post to Firestore
   const onCreate = async (values) => {
-    const { email, password, dateBirth, phoneNumber, userName } = values;
+    console.log(values);
+    const { email, password, dateBirth, phoneNumber, displayName } = values;
     const dateOfBirth = dateBirth.format("DD/MM/YYYY");
     try {
+      setIsRegister(true);
       const { user } = await createUserByEmailAndPass(email, password);
-      await createUserDocumentFromAuth(user, { dateOfBirth, phoneNumber });
-      await updateProfile(user, {
-        displayName: userName,
-        photoURL: null,
+      await createUserDocumentFromAuth(user, {
+        dateOfBirth,
+        phoneNumber,
+        displayName,
       });
-      await navigate("/");
+      await updateProfile(user, {
+        displayName: displayName,
+        photoURL: "123",
+      });
+      navigate("/");
       await message.success("Register account successed");
     } catch (err) {
       if (err.code === "auth/email-already-in-use") {
@@ -44,7 +53,7 @@ const RegisterUser = () => {
     form.validateFields().then((values) => {
       // console.log(value.dateBirth.format("DD/MM/YYYY"));
       onCreate(values);
-      form.resetFields();
+      // form.resetFields();
     });
   };
   return (
@@ -59,7 +68,7 @@ const RegisterUser = () => {
       >
         <Form.Item
           label="Username"
-          name="userName"
+          name="displayName"
           className="register-items"
           rules={[
             {
@@ -199,6 +208,12 @@ const RegisterUser = () => {
         </Form.Item>
 
         <button type="submit" className="login-btn">
+          {isRegister && (
+            <Spin
+              indicator={<LoadingOutlined />}
+              style={{ marginRight: "5px" }}
+            />
+          )}
           SignUp
         </button>
       </Form>

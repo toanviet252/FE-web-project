@@ -1,3 +1,4 @@
+$kit-color: rgb(0, 89, 255);
 .user-kit-container {
   margin: 0.2rem 1rem;
   .user-kit-list {
@@ -10,6 +11,7 @@
       flex-direction: column;
       justify-content: center;
       align-items: center;
+      cursor: pointer;
       i {
         color: white;
       }
@@ -19,13 +21,34 @@
         font-size: small;
         font-family: "Inter";
       }
+      &:hover {
+        p,
+        i {
+          color: $kit-color;
+        }
+      }
     }
   }
 }
 .meet-chat-container {
-  background-color: aquamarine;
   margin: 0 1rem;
+  display: flex;
+  justify-content: space-between;
   .meet-chat-btn {
-    width: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 48%;
+    border-radius: 0.8rem;
+    cursor: pointer;
+    border: none;
+    padding: 0.2rem 0.5rem;
+    &:hover {
+      background-color: $kit-color;
+      color: white;
+    }
+    i {
+      margin-right: 3px;
+    }
   }
 }

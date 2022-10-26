@@ -1,0 +1,26 @@
+.head-chat-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin: 0.5rem 1rem;
+  border-bottom: 1px solid rgb(70, 66, 66);
+  padding-bottom: 0.5rem;
+  h2 {
+    margin: 0;
+  }
+  .chat-toolkit-container {
+    .kit-btn {
+      border: none;
+      padding: 5px;
+      background-color: transparent;
+      cursor: pointer;
+
+      svg {
+        font-size: 20px;
+        &:hover {
+          color: rgb(0, 89, 255);
+        }
+      }
+    }
+  }
+}

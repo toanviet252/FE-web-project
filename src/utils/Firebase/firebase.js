@@ -57,10 +57,16 @@ export const createUserDocumentFromAuth = async (
       console.log("Error from create users:", err);
     }
   }
+  console.log(userAuth);
   return userDocRef;
 };
 //2) Create by Email, Password from User data
 export const createUserByEmailAndPass = async (email, password) => {
   if (!email || !password) return;
   return await createUserWithEmailAndPassword(auth, email, password);
+};
+
+//3) Create User Chat data
+export const CreateUserChatdata = async (userAuth, chatDatas) => {
+  const userDocRef = doc(db, "chatDatas", userAuth.uid);
 };

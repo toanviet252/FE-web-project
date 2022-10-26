@@ -32,8 +32,12 @@ const UserKit = () => {
         </ul>
       </div>
       <div className="meet-chat-container">
-        <button className="meet-chat-btn">Meet now</button>
-        <button className="meet-chat-btn">New Chat</button>
+        <button className="meet-chat-btn">
+          <i className="fa fa-video-camera" aria-hidden="true"></i> Meet now
+        </button>
+        <button className="meet-chat-btn">
+          <i className="fa fa-pencil-square-o" aria-hidden="true"></i> New Chat
+        </button>
       </div>
     </>
   );

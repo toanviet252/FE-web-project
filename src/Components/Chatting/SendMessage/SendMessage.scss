@@ -1,0 +1,53 @@
+.input-message-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: absolute;
+  width: calc(100% - 2rem);
+  bottom: 1rem;
+  left: 0;
+  margin: 0 1rem;
+  .input-message-feild {
+    display: flex;
+    width: 100%;
+    position: relative;
+    textarea {
+      padding: 0.5rem 1rem;
+      padding-right: 3rem;
+      border-radius: 1rem;
+      transition: 0.1s ease-in-out;
+      &:focus {
+        outline: 3px solid rgb(154 215 225);
+      }
+    }
+    .add-image-btn {
+      position: absolute;
+      cursor: pointer;
+      border: none;
+      padding: 0 5px;
+      background-color: transparent;
+      height: 80%;
+      margin: auto;
+      bottom: 0;
+      right: 1rem;
+      top: 0;
+      svg {
+        font-size: 20px;
+        &:hover {
+          color: #5eb2d3;
+        }
+      }
+    }
+  }
+
+  .send-btn {
+    align-self: flex-end;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-left: 0.5rem;
+    background: rgb(0, 89, 255);
+    padding: 0.6rem 1rem;
+    color: white;
+  }
+}

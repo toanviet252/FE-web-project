@@ -1,25 +1,63 @@
 import "./Login.scss";
 import React from "react";
-import { Form, Input } from "antd";
-import { Link } from "react-router-dom";
+import { Form, Input, message } from "antd";
+import { Link, useNavigate } from "react-router-dom";
 import { LockOutlined, MailOutlined } from "@ant-design/icons";
 import {
   signInWithGoogleAcc,
   createUserDocumentFromAuth,
+  signInWithEmailAndPass,
 } from "../../utils/Firebase/firebase";
+import { AuthAction } from "../../redux/configureStore";
+import { useDispatch } from "react-redux";
 
 const Login = () => {
   const [form] = Form.useForm();
-  // const navigate = useNavigate();
-  const onSubmit = (values) => {
-    console.log("user", values);
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
+  const setCurrentUser = (user) => {
+    dispatch(AuthAction.setCurrentUser(user));
+  };
+  const setCurrentUserPhoto = (imgUser) => {
+    dispatch(AuthAction.setCurrentUserPhoto(imgUser));
+  };
+  const logIn = () => {
+    dispatch(AuthAction.logIn());
+  };
+
+  //Submit login
+  const onSubmit = async (values) => {
+    const { email, password } = values;
+    try {
+      const { user } = await signInWithEmailAndPass(email, password);
+      setCurrentUser(user.displayName);
+      logIn();
+      navigate("/user");
+    } catch (err) {
+      switch (err.code) {
+        case "auth/user-not-found":
+          message.warning("Wrong email, please check again!");
+          break;
+        case "auth/wrong-password":
+          message.warning("Wrong password, please check again!");
+          break;
+        default:
+          console.log("default err", err);
+      }
+    }
+
     // navigate("/user");
   };
   const logInByGoogleAcc = async () => {
     const { user } = await signInWithGoogleAcc();
     await createUserDocumentFromAuth(user);
-    console.log(user);
+    // console.log(user);
+    setCurrentUser(user.displayName);
+    setCurrentUserPhoto(user.photoURL);
+    logIn();
+    navigate("/user");
   };
+
   return (
     <>
       <div className="wrapper">

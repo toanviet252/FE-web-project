@@ -1,0 +1,51 @@
+.messages-body {
+  margin: 1rem 0.5rem 1rem 1rem;
+  padding: 1rem;
+  // background-color: rgb(162, 162, 155);
+  position: relative;
+  height: 65vh;
+  overflow-y: scroll;
+
+  &::-webkit-scrollbar {
+    width: 8px;
+    background-color: aliceblue;
+  }
+  &::-webkit-scrollbar-thumb {
+    border-radius: 10px;
+    background-color: #67808074;
+  }
+  .message-feild {
+    display: flex;
+    align-items: center;
+    .message-infor {
+      display: flex;
+      flex-direction: column;
+      span {
+        font-size: 0.65rem;
+      }
+      .avatar-mesg {
+        display: flex;
+        justify-content: center;
+        width: 50px;
+        height: 50px;
+      }
+    }
+    .message-content {
+      margin-left: 1rem;
+      background-color: rgb(50, 98, 200);
+      border-radius: 0 0.5rem 0.5rem 0.5rem;
+      p {
+        padding: 0.5rem;
+        margin: 0;
+        color: white;
+      }
+    }
+    &.owner {
+      flex-direction: row-reverse;
+      .message-content {
+        border-radius: 0.5rem 0 0.5rem 0.5rem;
+        margin-right: 1rem;
+      }
+    }
+  }
+}
