@@ -7,6 +7,7 @@ import {
   signInWithEmailAndPassword,
 } from "firebase/auth";
 import { getFirestore, doc, getDoc, setDoc } from "firebase/firestore";
+import { getStorage } from "firebase/storage";
 
 //Config API
 const firebaseConfig = {
@@ -19,6 +20,7 @@ const firebaseConfig = {
 };
 // eslint-disable-next-line
 const app = initializeApp(firebaseConfig);
+export const storage = getStorage();
 
 const provider = new GoogleAuthProvider();
 provider.getCustomParameters({
@@ -64,9 +66,4 @@ export const createUserDocumentFromAuth = async (
 export const createUserByEmailAndPass = async (email, password) => {
   if (!email || !password) return;
   return await createUserWithEmailAndPassword(auth, email, password);
-};
-
-//3) Create User Chat data
-export const CreateUserChatdata = async (userAuth, chatDatas) => {
-  const userDocRef = doc(db, "chatDatas", userAuth.uid);
 };

@@ -30,7 +30,9 @@ const Login = () => {
     const { email, password } = values;
     try {
       const { user } = await signInWithEmailAndPass(email, password);
+      console.log("user from Auth >>", user);
       setCurrentUser(user.displayName);
+      setCurrentUserPhoto(user.photoURL);
       logIn();
       navigate("/user");
     } catch (err) {

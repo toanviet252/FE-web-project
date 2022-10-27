@@ -1,6 +1,6 @@
 import "./register.scss";
-import { DatePicker, Form, Input, message, Spin } from "antd";
-import { LoadingOutlined } from "@ant-design/icons";
+import { Button, DatePicker, Form, Input, message, Spin, Upload } from "antd";
+import { LoadingOutlined, UploadOutlined } from "@ant-design/icons";
 import {
   UserOutlined,
   PhoneOutlined,
@@ -12,9 +12,13 @@ import { useNavigate } from "react-router-dom";
 import {
   createUserByEmailAndPass,
   createUserDocumentFromAuth,
+  storage,
+  db,
 } from "../../utils/Firebase/firebase";
 import { updateProfile } from "firebase/auth";
 import { useState } from "react";
+import { ref, uploadBytesResumable, getDownloadURL } from "firebase/storage";
+import { doc, setDoc } from "firebase/firestore";
 
 const RegisterUser = () => {
   const [isRegister, setIsRegister] = useState(false);
@@ -22,36 +26,54 @@ const RegisterUser = () => {
   const [form] = Form.useForm();
   //Create authenticated user and post to Firestore
   const onCreate = async (values) => {
-    console.log(values);
-    const { email, password, dateBirth, phoneNumber, displayName } = values;
+    console.log(values.uploadFile);
+    const { email, password, dateBirth, phoneNumber, displayName, uploadFile } =
+      values;
     const dateOfBirth = dateBirth.format("DD/MM/YYYY");
+
+    //Create user with email and password
     try {
       setIsRegister(true);
       const { user } = await createUserByEmailAndPass(email, password);
-      await createUserDocumentFromAuth(user, {
-        dateOfBirth,
-        phoneNumber,
-        displayName,
-      });
-      await updateProfile(user, {
-        displayName: displayName,
-        photoURL: "123",
-      });
-      navigate("/");
-      await message.success("Register account successed");
+      const storageRef = ref(storage, `${displayName}_${uploadFile[0].name}`);
+      await uploadBytesResumable(storageRef, uploadFile[0].originFileObj).then(
+        () => {
+          getDownloadURL(storageRef).then(async (downloadUrl) => {
+            try {
+              //Update profile before create user on fireStore
+              await updateProfile(user, {
+                displayName: displayName,
+                photoURL: downloadUrl,
+              });
+              //create User on firestore
+              await createUserDocumentFromAuth(user, {
+                dateOfBirth,
+                phoneNumber,
+              });
+              //create user chat data on firestore
+              await setDoc(doc(db, "userChats", user.uid), {});
+              await message.success("Register account successed");
+              navigate("/");
+            } catch (err) {
+              console.log("err when create users", err);
+            }
+          });
+        }
+      );
+
+      console.log(user);
     } catch (err) {
       if (err.code === "auth/email-already-in-use") {
         message.warning(
           "Email has already in used. Please choose another email!"
         );
       } else {
-        console.log("Error from create user", err);
+        console.log("Error from create user >>>>", err);
       }
     }
   };
   const onSubmit = () => {
     form.validateFields().then((values) => {
-      // console.log(value.dateBirth.format("DD/MM/YYYY"));
       onCreate(values);
       // form.resetFields();
     });
@@ -205,6 +227,28 @@ const RegisterUser = () => {
             prefix={<UnlockOutlined />}
             placeholder="Confirm your password"
           />
+        </Form.Item>
+        <Form.Item
+          className="register-items"
+          label="Upload avatar"
+          name="uploadFile"
+          getValueFromEvent={(e) => {
+            if (Array.isArray(e)) {
+              return e;
+            }
+            return e && e.fileList;
+          }}
+          // htmlFor="uploadFile"
+        >
+          <Upload
+            className="upload-img"
+            beforeUpload={() => {
+              return false;
+            }}
+            // style={{ display: "none" }}
+          >
+            <Button icon={<UploadOutlined />}>Select File</Button>
+          </Upload>
         </Form.Item>
 
         <button type="submit" className="login-btn">
