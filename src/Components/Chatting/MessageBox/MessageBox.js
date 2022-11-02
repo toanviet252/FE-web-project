@@ -1,47 +1,29 @@
-import { Avatar } from "antd";
+import { useEffect, useState } from "react";
 import "./messagebox.scss";
+import { doc, onSnapshot } from "firebase/firestore";
+import { db } from "../../../utils/Firebase/firebase";
+import { useSelector } from "react-redux";
+import Message from "../../Message/Message";
 
 const MessageBox = () => {
+  const [messages, setMessages] = useState([]);
+  const chatId = useSelector((state) => state.QueryReducer.chatId);
+  //Hàm fetch data toàn bộ thông tin tin nhắn của current User
+  useEffect(() => {
+    const getMessage = () => {
+      const unsub = onSnapshot(doc(db, "chats", chatId), (doc) => {
+        doc.exists() && setMessages(doc.data()?.messages);
+      });
+      return () => {
+        unsub();
+      };
+    };
+    chatId && getMessage();
+  }, [chatId]);
+  // console.log("messages >>>", messages);
   return (
     <div className="messages-body">
-      <div className="message-feild">
-        <div className="message-infor">
-          <Avatar
-            src="https://i.guim.co.uk/img/media/26392d05302e02f7bf4eb143bb84c8097d09144b/446_167_3683_2210/master/3683.jpg?width=1200&quality=85&auto=format&fit=max&s=a52bbe202f57ac0f5ff7f47166906403"
-            className="avatar-mesg"
-          />
-          <span>
-            <em>Just now</em>
-          </span>
-        </div>
-        <div className="message-content">
-          <p className="message-text">Hey, I'm Banh</p>
-          <img
-            className="message-img"
-            src="https://i.guim.co.uk/img/media/26392d05302e02f7bf4eb143bb84c8097d09144b/446_167_3683_2210/master/3683.jpg?width=1200&quality=85&auto=format&fit=max&s=a52bbe202f57ac0f5ff7f47166906403"
-            alt="cat"
-          />
-        </div>
-      </div>
-      <div className="message-feild owner">
-        <div className="message-infor">
-          <Avatar
-            src="https://i.guim.co.uk/img/media/26392d05302e02f7bf4eb143bb84c8097d09144b/446_167_3683_2210/master/3683.jpg?width=1200&quality=85&auto=format&fit=max&s=a52bbe202f57ac0f5ff7f47166906403"
-            className="avatar-mesg"
-          />
-          <span>
-            <em>Just now</em>
-          </span>
-        </div>
-        <div className="message-content">
-          <p className="message-text">hello</p>
-          <img
-            className="message-img"
-            src="https://i.guim.co.uk/img/media/26392d05302e02f7bf4eb143bb84c8097d09144b/446_167_3683_2210/master/3683.jpg?width=1200&quality=85&auto=format&fit=max&s=a52bbe202f57ac0f5ff7f47166906403"
-            alt="cat"
-          />
-        </div>
-      </div>
+      <Message messages={messages} />
     </div>
   );
 };

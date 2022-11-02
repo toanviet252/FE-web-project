@@ -5,10 +5,12 @@
   background-color: white;
   overflow-y: scroll;
   height: 50vh;
+  border-radius: 10px;
 
   &::-webkit-scrollbar {
-    width: 8px;
+    width: 1rem;
     background-color: aliceblue;
+    border-radius: 10px;
   }
   &::-webkit-scrollbar-thumb {
     border-radius: 10px;

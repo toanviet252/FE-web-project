@@ -26,7 +26,7 @@ const RegisterUser = () => {
   const [form] = Form.useForm();
   //Create authenticated user and post to Firestore
   const onCreate = async (values) => {
-    console.log(values.uploadFile);
+    // console.log("upload File >>>", values.uploadFile);
     const { email, password, dateBirth, phoneNumber, displayName, uploadFile } =
       values;
     const dateOfBirth = dateBirth.format("DD/MM/YYYY");
@@ -49,10 +49,12 @@ const RegisterUser = () => {
               await createUserDocumentFromAuth(user, {
                 dateOfBirth,
                 phoneNumber,
+                uid: user.uid,
               });
               //create user chat data on firestore
               await setDoc(doc(db, "userChats", user.uid), {});
               await message.success("Register account successed");
+              setIsRegister(false);
               navigate("/");
             } catch (err) {
               console.log("err when create users", err);
@@ -238,14 +240,12 @@ const RegisterUser = () => {
             }
             return e && e.fileList;
           }}
-          // htmlFor="uploadFile"
         >
           <Upload
             className="upload-img"
             beforeUpload={() => {
               return false;
             }}
-            // style={{ display: "none" }}
           >
             <Button icon={<UploadOutlined />}>Select File</Button>
           </Upload>

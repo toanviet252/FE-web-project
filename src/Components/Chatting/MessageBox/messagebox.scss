@@ -16,12 +16,17 @@
   }
   .message-feild {
     display: flex;
-    margin-bottom: 0.5rem;
+    flex: 1;
+    margin-bottom: 1rem;
+
     .message-infor {
       display: flex;
       flex-direction: column;
+      align-items: center;
+
       span {
         font-size: 0.65rem;
+        width: 100px;
       }
       .avatar-mesg {
         display: flex;
@@ -32,6 +37,7 @@
     }
     .message-content {
       margin-left: 1rem;
+      margin-top: 0.5rem;
       .message-text {
         padding: 0.5rem;
         margin: 0;
@@ -44,6 +50,7 @@
       .message-img {
         width: 60%;
         object-fit: cover;
+        border-radius: 5px;
       }
     }
     &.owner {

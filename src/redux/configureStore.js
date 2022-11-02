@@ -6,6 +6,8 @@ const intialAuthState = {
   curentUserPhoto: null,
   nameFind: "",
   listContact: [],
+  chooseContactUser: null,
+  isChooseContact: false,
 };
 export const AuthSlice = createSlice({
   name: "Authentication",
@@ -26,22 +28,39 @@ export const AuthSlice = createSlice({
     setNameFind(state, action) {
       state.nameFind = action.payload;
     },
+    setChooseContactUser(state, action) {
+      state.chooseContactUser = action.payload;
+    },
+    setIsChooseContact(state) {
+      state.isChooseContact = true;
+    },
   },
 });
-export const Slice2 = createSlice({
-  name: "Slice2",
+export const QueryUserSlice = createSlice({
+  name: "QueryUser",
   initialState: {
-    props1: "abc",
-    props2: "def",
+    queryUser: null,
+    dataInfor: [],
+    chatId: null,
   },
   reducers: {
-    increase(state, action) {
-      state.props1 = action.payload;
+    setQueryUser(state, action) {
+      state.queryUser = action.payload;
+    },
+    setDataInfor(state, action) {
+      state.dataInfor = action.payload;
+    },
+    setChatId(state, action) {
+      state.chatId = action.payload;
     },
   },
 });
 
 export const store = configureStore({
-  reducer: { Auth: AuthSlice.reducer, Slice: Slice2.reducer },
+  reducer: {
+    Auth: AuthSlice.reducer,
+    QueryReducer: QueryUserSlice.reducer,
+  },
 });
 export const AuthAction = AuthSlice.actions;
+export const QueryUserAction = QueryUserSlice.actions;

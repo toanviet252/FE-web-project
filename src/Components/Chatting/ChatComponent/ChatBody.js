@@ -7,8 +7,11 @@ import ContactUser from "../ContactUser/ContactUser";
 import MessageBox from "../MessageBox/MessageBox";
 import SendMessage from "../SendMessage/SendMessage";
 import HeadChat from "../HeadChatBox/HeadChat";
+import TemplateChat from "../../TemplateChat/TemplateChat";
+import { useSelector } from "react-redux";
 
 const ChatBody = () => {
+  const isChooseContact = useSelector((state) => state.Auth.isChooseContact);
   return (
     <>
       <div className="body-chat-wrapper">
@@ -19,9 +22,15 @@ const ChatBody = () => {
             <ContactUser />
           </Col>
           <Col lg={14} sm={8} xs={0} className="message-container">
-            <HeadChat />
-            <MessageBox />
-            <SendMessage />
+            {isChooseContact ? (
+              <>
+                <HeadChat />
+                <MessageBox />
+                <SendMessage />
+              </>
+            ) : (
+              <TemplateChat />
+            )}
           </Col>
         </Row>
       </div>

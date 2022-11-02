@@ -3,7 +3,10 @@ import "./HeadUser.scss";
 import { MenuOutlined, UserOutlined } from "@ant-design/icons";
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { AuthAction } from "../../../redux/configureStore";
+import { AuthAction, QueryUserAction } from "../../../redux/configureStore";
+import { query, collection, where, getDocs } from "firebase/firestore";
+import { db } from "../../../utils/Firebase/firebase";
+// import { signOut } from "firebase/auth";
 
 const HeadUser = () => {
   const currentUser = useSelector((state) => state.Auth.currentUser);
@@ -12,10 +15,35 @@ const HeadUser = () => {
   const logOut = () => {
     dispatch(AuthAction.logOut());
     dispatch(AuthAction.setCurrentUser(null));
+    // signOut();
   };
   const nameFind = useSelector((state) => state.Auth.nameFind);
   const onChangeFindPeople = (event) => {
     dispatch(AuthAction.setNameFind(event.target.value));
+  };
+
+  // const userQuery = useSelector((state) => state.QueryReducer.queryUser);
+  const setUserQuery = (data) => {
+    dispatch(QueryUserAction.setQueryUser(data));
+  };
+  //Tìm kiếm người dùng đã đăng ký tài khoản trên firestore
+  const handleSearch = async () => {
+    const usersRef = collection(db, "users");
+    const q = query(usersRef, where("displayName", "==", nameFind));
+    try {
+      const querySnapshot = await getDocs(q);
+      // console.log("querySnapshot running", querySnapshot);
+      querySnapshot.forEach((doc) => {
+        setUserQuery(doc.data());
+      });
+    } catch (err) {
+      alert(err);
+    }
+  };
+  const handleKey = (e) => {
+    if (e.code === "Enter" || e.code === "NumpadEnter") {
+      handleSearch();
+    }
   };
   const [isOpenNav, setIsOpenNav] = useState(false);
   return (
@@ -24,11 +52,15 @@ const HeadUser = () => {
         <div className="current-user-container">
           <div className="avatar-container">
             <Badge dot color="green">
-              <Avatar src={curentUserPhoto} icon={<UserOutlined />} />
+              <Avatar
+                className="current-user-avatar"
+                src={curentUserPhoto}
+                icon={<UserOutlined />}
+              />
             </Badge>
           </div>
           <div className="user-detail">
-            <h4>{currentUser}</h4>
+            <h4>{currentUser && currentUser.displayName}</h4>
             <p>Status: </p>
           </div>
         </div>
@@ -54,6 +86,7 @@ const HeadUser = () => {
         <Input.Search
           placeholder="find people"
           value={nameFind}
+          onKeyDown={handleKey}
           onChange={onChangeFindPeople}
         />
       </div>

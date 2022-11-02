@@ -1,8 +1,8 @@
 import "./Login.scss";
-import React from "react";
-import { Form, Input, message } from "antd";
+import React, { useState } from "react";
+import { Form, Input, message, Spin } from "antd";
 import { Link, useNavigate } from "react-router-dom";
-import { LockOutlined, MailOutlined } from "@ant-design/icons";
+import { LoadingOutlined, LockOutlined, MailOutlined } from "@ant-design/icons";
 import {
   signInWithGoogleAcc,
   createUserDocumentFromAuth,
@@ -27,11 +27,12 @@ const Login = () => {
 
   //Submit login
   const onSubmit = async (values) => {
+    setIsLogin(true);
     const { email, password } = values;
     try {
       const { user } = await signInWithEmailAndPass(email, password);
-      console.log("user from Auth >>", user);
-      setCurrentUser(user.displayName);
+      const { uid, displayName, photoURL, phoneNumber, dateOfBirth } = user;
+      setCurrentUser({ uid, displayName, photoURL, phoneNumber, dateOfBirth });
       setCurrentUserPhoto(user.photoURL);
       logIn();
       navigate("/user");
@@ -47,19 +48,16 @@ const Login = () => {
           console.log("default err", err);
       }
     }
-
-    // navigate("/user");
   };
   const logInByGoogleAcc = async () => {
     const { user } = await signInWithGoogleAcc();
     await createUserDocumentFromAuth(user);
-    // console.log(user);
-    setCurrentUser(user.displayName);
+    setCurrentUser(user);
     setCurrentUserPhoto(user.photoURL);
     logIn();
     navigate("/user");
   };
-
+  const [isLogin, setIsLogin] = useState(false);
   return (
     <>
       <div className="wrapper">
@@ -102,10 +100,6 @@ const Login = () => {
                   required: true,
                   message: "Input your password!",
                 },
-                {
-                  min: 9,
-                  message: "Password is invalid",
-                },
               ]}
               hasFeedback
             >
@@ -116,6 +110,12 @@ const Login = () => {
             </Form.Item>
 
             <button type="submit" className="login-btn">
+              {isLogin && (
+                <Spin
+                  indicator={<LoadingOutlined />}
+                  style={{ marginRight: "5px" }}
+                />
+              )}
               Login
             </button>
           </Form>

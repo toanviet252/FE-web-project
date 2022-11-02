@@ -1,52 +1,85 @@
 import "./SendMessage.scss";
 import { SendOutlined, FileImageOutlined } from "@ant-design/icons";
-import { Upload, Tooltip, Input } from "antd";
+import { Tooltip, Input } from "antd";
 import { useState } from "react";
+import {
+  arrayUnion,
+  doc,
+  serverTimestamp,
+  Timestamp,
+  updateDoc,
+} from "firebase/firestore";
+import { db, storage } from "../../../utils/Firebase/firebase";
+import { getDownloadURL, ref, uploadBytesResumable } from "firebase/storage";
+import { useSelector } from "react-redux";
+import { v4 as uuid } from "uuid";
 
 const SendMessage = () => {
-  const [message, setMessage] = useState("");
+  const [text, setText] = useState("");
+  const [image, setImage] = useState(null);
+  const currentUser = useSelector((state) => state.Auth.currentUser);
+  const chatId = useSelector((state) => state.QueryReducer.chatId);
+  const chooseUserContact = useSelector(
+    (state) => state.Auth.chooseContactUser
+  );
+  const handleSend = async () => {
+    if (image) {
+      const storageRef = ref(storage, uuid());
+      const upLoadTask = uploadBytesResumable(storageRef, image);
+      upLoadTask.on(
+        (error) => {
+          console.error(error);
+        },
+        () => {
+          getDownloadURL(upLoadTask.snapshot.ref).then(async (downloadURL) => {
+            await updateDoc(doc(db, "chats", chatId), {
+              messages: arrayUnion({
+                id: uuid(),
+                text,
+                senderId: currentUser.uid,
+                date: Timestamp.now(),
+                img: downloadURL,
+              }),
+            });
+          });
+        }
+      );
+    } else {
+      await updateDoc(doc(db, "chats", chatId), {
+        messages: arrayUnion({
+          id: uuid(),
+          text: text,
+          senderId: currentUser.uid,
+          date: Timestamp.now(),
+        }),
+      });
+    }
+    await updateDoc(doc(db, "userChats", currentUser.uid), {
+      [chatId + ".lastestMessage"]: {
+        text,
+      },
+      [chatId + ".date"]: serverTimestamp(),
+    });
+    await updateDoc(doc(db, "userChats", chooseUserContact?.uid), {
+      [chatId + ".lastestMessage"]: {
+        text,
+      },
+      [chatId + ".date"]: serverTimestamp(),
+    });
+
+    setText("");
+    setImage(null);
+  };
   const onSubmit = (event) => {
     event.preventDefault();
-    console.log(event.target.message.value);
-    setMessage("");
+    handleSend();
   };
-  const onChangeMessage = (event) => {
-    setMessage(event.target.value);
-  };
-  // const props = {
-  //   action: "//jsonplaceholder.typicode.com/posts/",
-  //   listType: "picture",
-  //   previewFile(file) {
-  //     console.log("Your upload file", file);
-  //     return fetch("https://next.json-generator.com/api/json/get/4ytyBoLK8", {
-  //       method: "POST",
-  //       body: file,
-  //     })
-  //       .then((res) => res.json())
-  //       .then(({ thumbnail }) => thumbnail);
-  //   },
-  // };
-  const [selectedFile, setSelectedFile] = useState();
-  const [isPickedFile, setisPikedFile] = useState(false);
-  const onChangeHandler = (event) => {
-    console.log(event.target.file);
-    setSelectedFile(event.target.file[0]);
-    setisPikedFile(true);
-  };
-  const handleSubmitUpload = () => {
-    const formData = new FormData();
-    formData.append("File", selectedFile);
-    console.log(formData);
-    // fetch("https://freeimage.host/api/1/upload?key=<YOUR_API_KEY>", {
-    //   method: "POST",
-    //   body: formData,
-    // })
-    //   .then((res) => res.json())
-    //   .then((result) => console.log("succssed upload", result))
-    //   .catch((err) => console.log(err));
-  };
+
   return (
     <div>
+      <div className="file-upload-container">
+        <p>{image?.name}</p>
+      </div>
       <form className="input-message-container" onSubmit={onSubmit}>
         <div className="input-message-feild">
           <Input.TextArea
@@ -57,26 +90,29 @@ const SendMessage = () => {
               minRows: 1,
               maxRows: 3,
             }}
-            value={message}
-            onChange={onChangeMessage}
+            value={text}
+            onChange={(e) => setText(e.target.value)}
           />
           {/* <Upload {...props}> */}
           <Tooltip title="Upload file" color="blue">
-            <button className="add-image-btn">
+            <label className="add-image-btn" htmlFor="fileUpLoad">
               <FileImageOutlined />
-            </button>
+            </label>
           </Tooltip>
           {/* </Upload> */}
         </div>
-
-        <button
-          className="send-btn btn"
-          type="submit"
-          // onClick={handleSubmitUpload}
-        >
-          <SendOutlined />
-        </button>
+        {(text?.trim().length > 0 || image !== null) && (
+          <button className="send-btn btn" type="submit">
+            <SendOutlined />
+          </button>
+        )}
       </form>
+      <input
+        type="file"
+        id="fileUpLoad"
+        onChange={(e) => setImage(e.target.files[0])}
+        style={{ display: "none" }}
+      />
     </div>
   );
 };

@@ -45,7 +45,7 @@ export const createUserDocumentFromAuth = async (
   const userDocRef = doc(db, "users", userAuth.uid);
   const userSnapShot = await getDoc(userDocRef);
   if (!userSnapShot.exists()) {
-    const { displayName, email, photoURL } = userAuth;
+    const { displayName, email, photoURL, uid, phoneNumber } = userAuth;
     const createDateUser = new Date();
     try {
       await setDoc(userDocRef, {
@@ -53,13 +53,14 @@ export const createUserDocumentFromAuth = async (
         email,
         photoURL,
         createDateUser,
+        uid,
+        phoneNumber,
         ...additionalInfor,
       });
     } catch (err) {
       console.log("Error from create users:", err);
     }
   }
-  console.log(userAuth);
   return userDocRef;
 };
 //2) Create by Email, Password from User data

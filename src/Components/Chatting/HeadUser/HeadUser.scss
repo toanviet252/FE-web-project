@@ -8,6 +8,7 @@
     align-items: center;
     .avatar-container {
       margin-right: 0.5rem;
+      width: fit-content;
     }
     .user-detail {
       display: flex;
@@ -65,4 +66,12 @@
   background: none;
   cursor: pointer;
   color: blue;
+}
+
+.current-user-avatar {
+  display: flex !important;
+  justify-content: center;
+  align-items: center;
+  width: 45px !important;
+  height: 45px !important;
 }
