@@ -78,13 +78,6 @@ export const signInUser = async (email, password) => {
   return await signInWithEmailAndPassword(auth, email, password);
 };
 
-// // Update user Profile
-// export const updateProfile = async (user, { displayName, photoURL }) => {
-//   return {
-//     displayName:
-//   }
-// };
-
 // Hàm đẩy data sản phẩm lên firestore
 export const addCollectionAndDocuments = async (collectKey, objectsToAdd) => {
   const collectionRef = collection(db, collectKey);
