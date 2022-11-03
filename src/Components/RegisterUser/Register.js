@@ -63,7 +63,7 @@ const RegisterUser = () => {
         }
       );
 
-      console.log(user);
+      // console.log(user);
     } catch (err) {
       if (err.code === "auth/email-already-in-use") {
         message.warning(

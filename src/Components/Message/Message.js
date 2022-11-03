@@ -61,7 +61,6 @@ const Message = ({ messages }) => {
               ) : (
                 ""
               )}
-
               {message.img && (
                 <img className="message-img" src={message.img} alt="send-img" />
               )}

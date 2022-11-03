@@ -115,7 +115,11 @@ const ContactUser = () => {
             onClick={() => handleSelectCurrentContact(chat[1].userInfo)}
           >
             <h3>{chat[1].userInfo.displayName}</h3>
-            <p>{chat[1].lastestMessage?.text}</p>
+            <p>
+              {chat[1].lastestMessage?.text.length > 0
+                ? chat[1].lastestMessage?.text
+                : "image"}
+            </p>
           </div>
         </div>
       );

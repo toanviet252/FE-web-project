@@ -24,23 +24,29 @@ const SendMessage = () => {
   );
   const handleSend = async () => {
     if (image) {
-      const storageRef = ref(storage, uuid());
+      const storageRef = ref(storage, `${uuid()}.${image.name}`);
       const upLoadTask = uploadBytesResumable(storageRef, image);
       upLoadTask.on(
+        "state_changed",
+        null, //có thể thêm snapshot để cập nhật progress tại đây
         (error) => {
           console.error(error);
         },
         () => {
           getDownloadURL(upLoadTask.snapshot.ref).then(async (downloadURL) => {
-            await updateDoc(doc(db, "chats", chatId), {
-              messages: arrayUnion({
-                id: uuid(),
-                text,
-                senderId: currentUser.uid,
-                date: Timestamp.now(),
-                img: downloadURL,
-              }),
-            });
+            try {
+              await updateDoc(doc(db, "chats", chatId), {
+                messages: arrayUnion({
+                  id: uuid(),
+                  text,
+                  senderId: currentUser.uid,
+                  date: Timestamp.now(),
+                  img: downloadURL,
+                }),
+              });
+            } catch (err) {
+              console.log("err when upload image", err);
+            }
           });
         }
       );
